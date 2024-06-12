@@ -1,0 +1,63 @@
+{% extends 'Teacher/teachers_base.html' %}
+{% load custom_filters %}
+{% load supervisor_filters %}
+
+{% block content %}
+
+
+
+<br><br><br><br>
+
+<div class="container">
+    <h6>Migrate or Rollback fee increments for {% get_term %}</h6>
+
+</div>
+<div class="container" style="width: 95%;margin: 30px auto;column-gap: 30px ;display: grid;grid-template-columns: 45% 45%;">
+    <div class="data-card">
+        <div style="color: coral;">
+            <h6>Current Datalytics</h6>
+            <p>All Students {{ all.count }} <strong>|</strong> Available active accounts {{ students }}</p>
+            <p>Total Balances {{ balances }}</p>
+        </div>
+        
+        <hr>
+        <div style="color: cornflowerblue;">
+            <h6>After Migrations Expectations</h6>
+            {% with balances|get_migrations as current %}
+              <h6>Increment {{ current }}</h6>
+              <h6>New Balance {{ current|add:balances }}</h6>
+            {% endwith %}
+            
+        </div>
+        
+
+    </div>
+    <div class="" aria-disabled="true">
+        <br>
+        <h6>Migrate Fee Balances</h6>
+        <p>By clicking the button beleow you are going to :
+        <p>1) Increment fee balances to all active students in the school system</p>
+        <!-- <p>2) Archive classes that have completed the junior secondary level</p> -->
+        </p>
+
+    
+        <form method="post">
+            {% csrf_token %}
+            {% if  error %}
+              <button class="btn btn-primary" disabled>Migrate</button>
+            {% else %}
+              <button class="btn btn-primary" name="migrate">Migrate</button>
+            {% endif %}
+        </form>
+
+    </div>
+
+    
+
+
+
+</div>
+
+
+
+{% endblock %}

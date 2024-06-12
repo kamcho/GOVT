@@ -1,0 +1,78 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+<div class="container">
+<a class="btn btn-primary" href="{% url 'invoices' %}"><i class="bi bi-arrow-left"> </i> Back</a>
+<br><br>
+<form  method="post">
+  {% csrf_token %}
+ <div class="input-group mb-3">
+  <span class="input-group-text">From</span>
+      <input type="date" class="form-control" pattern="" name="from" >
+
+
+
+      <span class="input-group-text">To</span>
+      <input type="date" class="form-control" name="to" placeholder="From" aria-label="Recipient's username" aria-describedby="button-addon2">
+      <span class="input-group-text">Mode</span>
+      <select class="form-select" id="roleSelect" aria-label="Default select example" name="mode" >
+        <option ></option>
+        <option value="Cash">Cash</option>
+        <option value="M-Pesa">M-Pesa</option>
+        <option value="Bank">Bank</option>
+    </select>
+      
+ </div>
+ <div class="input-group">
+  <span class="input-group-text">User</span>
+      <input type="text" class="form-control" name="user" placeholder="search by names, phone, email" aria-label="Recipient's username" aria-describedby="button-addon2">
+      <span class="input-group-text">L.Amount</span>
+      <input type="text" class="form-control" name="lower" placeholder="5000"  aria-describedby="button-addon2">
+      <span class="input-group-text">U.Amount</span>
+      <input type="text" class="form-control" name="upper" placeholder="5000"  aria-describedby="button-addon2">
+      <button class="btn btn-outline-primary" >Filter</button>
+ </div>
+  </form>
+  <br>
+<table class="table">
+  {% if totals %}
+  <caption><h6>Total query amount {{ totals }}</h6></caption>
+    
+  {% endif %}
+    <thead>
+      <tr>
+        <th><h6><input type="checkbox"></h6></th>
+        <th><h6>Id</h6></th>
+        <th><h6>User</h6></th>
+         <th><h6>Date</h6></th>
+        <th><h6>Amount</h6></th>
+        <th><h6>Account</h6></th>
+    
+        <th><h6>Balance</h6></th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      {% for invoice in payments %}
+        <tr>
+          
+          <td><input type="checkbox"></td>
+          <td><a ><h6>{{ forloop.counter }}</h6></a></td>
+          <td><a href="{% url 'invoice-payment-id' invoice.id %}">{{ invoice.invoice.user.personalprofile.f_name }} {{ invoice.invoice.user.personalprofile.l_name }}</a></td>
+          <td>{{ invoice.date|date:"D d M Y"  }}</td>
+          <td>{{ invoice.user_account }} | <small>{{ invoice.mode }}</small>  </td>
+
+          <td>{{ invoice.amount }}</td>
+          <td>{{ invoice.balance }}</td>
+      
+          
+        </tr>
+      {% endfor %}
+    </tbody>
+ </table>
+
+</div>
+
+ {% endblock %}

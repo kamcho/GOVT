@@ -1,0 +1,180 @@
+{% extends base_html %}
+{% load custom_filters %}
+
+
+
+{% block content %}
+
+<br><br><br><br>
+
+<div class="container">
+    <button id="downloadPdf" class="btn btn-danger" style="position: fixed; right: 14.5%;top: 10%;">Download PDF</button>
+    <br>
+   <a class="btn btn-primary" style="position: absolute;top: 70px;right: 30px;" href="{% url 'class-exam-analytics' class_id.class_id %}">DATALYTICS</a>
+   <br>
+    <!-- <button onclick="printDiv('tab')" class="btn btn-danger" style="position: fixed; right: 14.5%;top: 10%;">Download PDF</button> -->
+    <br><br>
+    <form method="post">
+        {% csrf_token %}
+
+        <div  >
+            <select class="form-select" aria-label="Default select example" name="stream" id="streamSelect">
+                <option value="{{ class_id }}">{{ class_id }}</option>
+                <option value="stream">Grade {{ class_id.grade }} Stream</option>
+            </select>
+            <br>
+            
+          </div>
+
+
+
+    
+    
+    
+ 
+       <div class="input-group mb-3">
+        <select class="form-select" aria-label="Default select example" name="year">
+            <option value="{{ grade }}">Grade {{ grade }}</option>
+            <option value="1">Grade 1</option>
+            <option value="2">Grade 2</option>
+            <option value="3">Grade 3</option>
+            <option value="4">Grade 4</option>
+            <option value="5">Grade 5</option>
+            <option value="6">Grade 6</option>
+            <option value="7">Grade 7</option>
+            <option value="8">Grade 8</option>
+    
+    
+          </select>  
+            <span class="input-group-text">Term</span>
+            <select class="form-select" aria-label="Default select example" name="term">
+                <option value="{{ term }}">{{ term }}</option>
+                <option value="Term 1">1</option>
+                <option value="Term 2">2</option>
+                <option value="Term 3">3</option>
+            </select>  
+            <button class="btn btn-warning" name="config">Filter</button>
+       </div>
+        </form>
+        
+        
+   
+        {% if class_id.class_teacher == user%}
+        <br>
+        <button class="btn btn-danger" name="config">Print Document</button>
+        {% else %}
+
+        {% endif %}
+
+        <br>
+        <br>
+
+        
+        {% if subjects and students %}
+        <table class="container table" id="tab">
+            <caption>
+                {% for class in classes %} 
+                     {{ class }} Mean
+                     {% get_class_overall_average class.class_id grade term %}
+                     <br>
+                {% endfor %}
+        
+                Stream
+                Mean {% get_stream_overall_average class_id.class_id grade term %}
+            </caption>
+
+            <thead>
+              <tr style="background-color: black;color: white;text-transform: capitalize !important;">
+                <th><h6>RANK</h6></th>
+                <th><h6 >STUDENT</th></h6></th>
+                {% for subject in subjects %}
+                    <th><h6>{{ subject.course.abbreviation }}</h6></th>
+                {% endfor %}
+                
+                <th><h6>Marks</h6></th>
+                {% if stream %}
+                    <th><h6>Class</h6></th>
+                    
+                {% else %}
+
+                {% endif %}
+           
+                <th><h6>Print</h6></th>
+                
+              </tr>
+            </thead>
+            <tbody>
+            {% for user in students %}
+              <tr>
+                {% if user.rank|add:0 <= 5 %}
+                    <td style="color:coral;">{{ user.rank }}</td>
+                {% elif user.rank > 5 and user.rank <= 10 %}
+                    <td style="color:cornflowerblue;">{{ user.rank }}</td>
+                {% else %}
+                    <td >{{ user.rank }}</td>
+                {% endif %}
+                    <td><a href="">{{ user.user__personalprofile__f_name }} {{ user.user__personalprofile__l_name }} {{ user.user__personalprofile__surname }}</a></td>
+               
+                
+                {% for subject in subjects %}
+                    <td>{% get_subject_score user.user__email grade subject.id term %}</td>
+                {% endfor %}
+                
+                <td>{{ user.total_score }}</td>
+                {% if stream %}
+                    <td><h6>{{ user.user__academicprofile__current_class__class_name }}</h6></td>
+                    
+                {% else %}
+                {% endif %}
+               
+                <td><a href="{% url 'print-report' user.user__email grade term user.rank %}"><h6><i class="bi bi-printer" ></i></h6></a></td>
+                
+              </tr>
+            {% endfor %}
+            </tbody>
+         </table>
+    {% endif %}
+</div>
+<script>
+    document.getElementById('downloadPdf').addEventListener('click', function() {
+        // Use html2pdf library to convert the HTML table to PDF
+        var element = document.getElementById('tab'); // Replace 'tab' with the actual ID of your table
+        var classId = "{{ class_id }}"
+
+        html2pdf(element, {
+            margin: 5,
+            filename: `fee_balance_${classId}.pdf`, // You can customize the filename
+        });
+    });
+  </script>
+<script>
+    document.getElementById('streamSelect').addEventListener('change', function() {
+        var streamSelect = document.getElementById('streamSelect');
+        var schoolSelect = document.getElementById('schoolSelect');
+
+        if (streamSelect.value === 'stream') {
+            schoolSelect.style.display = 'inline';
+        } else {
+            schoolSelect.style.display = 'none';
+        }
+    });
+</script>
+
+  <script>
+      function printDiv(divId) {
+          var printContent = document.getElementById(divId).innerHTML;
+          var originalContent = document.body.innerHTML;
+
+          document.body.innerHTML = printContent;
+
+          window.print();
+
+          document.body.innerHTML = originalContent;
+      }
+  </script>
+
+
+
+
+
+{% endblock %}

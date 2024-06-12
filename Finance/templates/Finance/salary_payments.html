@@ -1,0 +1,55 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+<div class="container">
+
+
+    <a class="btn btn-primary" href="{% url 'salary-payment' %}">Add Salary Payment</a>
+    <br><br>
+    <form method="post">
+        {% csrf_token %}
+        
+        
+    
+    
+
+    <table class="table" >
+        <thead>
+          <tr>
+            <th><input type="checkbox"></th>
+            <th><h6>Users</h6></th>
+            <th><h6>Date</h6></th>
+            <th><h6>Amount</h6></th>
+            <th><h6>Balance</h6></th>
+            <th><h6>Receipt</h6></th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            {% for user in salaries %}
+            <tr>
+              <td><input type="checkbox" value="{{ user.user.email }}" name="selected"></td>
+              <td><a href="{% url 'teachers-profile' user %}"><h6>{{ user.user.personalprofile.f_name }} {{ user.user.personalprofile.l_name }} {{ user.user.personalprofile.surname }}</h6></a></td>
+              <td>{{ user.date|date:"D d M Y" }}</td>
+              <td>{{ user.amount }}</td>
+              <td>{{ user.balance }}</td>
+              {% if user.mode == 'CASH' %}
+                <td><a href="{% url 'salary-receipt' user.id %}">{{ user.mode }}</a> </td>
+              {% else %}
+                <td><a href="{% url 'salary-receipt' user.id %}">{{ user.mode }} - {{ user.transaction_id }}</a></td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+         
+        </tbody>
+     </table>
+
+
+    </form>
+
+
+</div>
+
+{% endblock %}

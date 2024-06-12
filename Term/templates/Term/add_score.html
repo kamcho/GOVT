@@ -1,0 +1,78 @@
+{% extends 'Teacher/teachers_base.html' %}
+{% block content %}
+
+
+<br><br><br><br>
+
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+
+        <h6 >{{ subject.name }} grade {{ subject.grade }}</h6>
+        {% if students %}
+
+        <br>
+            <select id="student" class="form-select"  aria-label="Default select example" name="user" required>
+                {% for student in students %}
+                    <option value="{{ student }}">{{ student.user.personalprofile.f_name }} {{ student.user.personalprofile.surname }} {{ student.user.personalprofile.l_name }}</option>
+                {% endfor %}
+                
+            </select>
+        <br>
+
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="inputField3" class="form-label">Score</label>
+                <input type="number" class="form-control" id="inputField3" name="score" maxlength="3" placeholder="score" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-warning">Save</button>
+        {% endif %}
+    </form>
+
+    <br><br>
+    <table class="container table">
+        <thead>
+          <tr style="background-color: black;color: white;text-transform: capitalize !important;">
+            <th><h6>ID</h6></th>
+            <th><h6 >STUDENT</th></h6></th>
+            <th><h6>SCORE</h6></th>
+            <th><h6>GRADE</h6></th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for test in scores %}
+          <tr>
+            {% if test.user.personalprofile.f_name %}
+            <td>{{ forloop.counter }}</td>
+                <td><a href="{% url 'students-profile' test.user %}">{{ test.user.personalprofile.f_name }} {{ test.user.personalprofile.l_name }} {{ test.user.personalprofile.surname }}</a></td>
+            {% else %}
+                <td><a href="{% url 'students-profile' test.user %}">{{ test.user }}</a></td>
+            {% endif %}
+            <td>
+                <form method="post" class="input-group" style="width: 200px !important;">
+                    {% csrf_token %}
+                    <input type="number" class="form-control"  value="{{ test.score }}" id="inputField3" name="new" maxlength="3" placeholder="{{ test.score }}" required>
+                    <button class="btn btn-dark" value="{{ test.user }}" name="update">Update</button>
+                </form>
+            </td>
+            <td>{{ test.grade }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+     </table>
+
+    <div>
+    
+    </div>
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

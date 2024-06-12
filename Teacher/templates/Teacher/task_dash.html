@@ -1,0 +1,56 @@
+{% extends 'Teacher/teachers_base.html' %}
+{% block content %}
+
+
+<br><br><br>
+<div class="container">
+
+    <div class="users-view" style="color: black !important;">
+        <a class="nav-link" href="{% url 'dashboard' %}" style="color:cornflowerblue !important;">
+            <div class="user-card">
+                    Manage Classes
+                <p>View and manage the classes you teach</p>
+
+            </div>
+        </a>
+
+        <a class="nav-link" href="{% url 'create-questions' %}" style="color:cornflowerblue !important;">
+            <div class="user-card">
+                    Add Questions
+                <p>Add questions to the system</p>
+
+            </div>
+        </a>
+        
+
+        <a class="nav-link" href="{% url 'subjects-selection' %}" style="color:cornflowerblue !important;">
+            <div class="user-card">
+                
+                    Subject Selection
+                
+                <p>Select the subjects you teach</p>
+
+            </div>
+        </a>
+
+        <a class="nav-link" href="{% url 'update-profile' user  %}" style="color:cornflowerblue !important;">
+            <div class="user-card">
+
+                    Profile
+                
+                <p>Manage and edit your profile</p>
+
+            </div>
+        </a>
+
+        
+    
+        
+        
+
+        
+
+</div>
+
+
+{% endblock %}

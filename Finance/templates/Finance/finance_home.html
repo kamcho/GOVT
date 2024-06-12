@@ -1,0 +1,220 @@
+{% extends 'Supervisor/base.html' %}
+{% load supervisor_filters %}
+{% block content %}
+
+
+<div style="display: grid;grid-template-columns: 65% 35%;column-gap: 30px;width: 90%;margin: 0 auto;margin-top: 75px;">
+            
+    <div class="data-card" id="expense"  style="color: white !important;">
+        <div style="display: flex;flex-wrap: nowrap;column-gap: 10px;">
+            <small style="background-color:#ffb6b9 ;border-radius: 5px;padding: 5px;">Expense {{ totals }}</small>
+            <small style="background-color:#61c0bf ;border-radius: 5px;padding: 5px;">Income {{ incomes }}</small>
+        </div>
+        <form >
+        
+            <div class="dropdown top-left">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    {{ year }}
+                </button>
+                <!-- <ul class="dropdown-menu">
+                    <li><button class="dropdown-item" name="year" value="2022">2022</button></li>
+                    <li><button class="dropdown-item" name="year" value="2023">2023</button></li>
+                    <li><button class="dropdown-item" name="year" value="2024">2024</button></li>
+                </ul> -->
+            </div>
+        </form>
+        <canvas id="barChart" width="500" style="z-index: 100000;" height="220"></canvas>
+
+    </div>
+
+    <div class="data-card" style="width: 100% !important;height: 450px;">
+        <button class="btn btn-secondary">Data</button>
+
+        <hr>
+        <a href="{% url 'school-fees-balances' %}" style="color: white;">
+        <div class="fee-card">
+            <h5 class="text-center"><small style="background-color: #52A2EF;">Cleared</small> Fees</h5>
+            
+            <div class="progress-canvas">
+                
+                <canvas id="doughnutChart1"  height="100"></canvas>
+            </div>
+            {% with user|get_fee_balances as progress %}
+            <script>
+                var ctx1 = document.getElementById('doughnutChart1').getContext('2d');
+                var doughnutChart1 = new Chart(ctx1, {
+                    type: 'doughnut',
+                    data: {
+                    
+                        datasets: [{
+                            data: [{{ progress }}, {{ progress|add:"-100" }}],
+    
+                            backgroundColor: ['#52A2EF', '#FF6344'],
+                        }]
+                    },
+                });
+            </script>
+            {% endwith %}
+        </div>
+        </a>
+        <hr>
+        <a href="{% url 'invoices' %}" style="color: white;">
+        <div class="fee-card">
+            <h5 class="text-center"><small style="background-color: #36A2EB;">Cleared</small>Invoices</h5>
+           
+            <div class="progress-canvas">
+                <canvas id="doughnutChart2"  ></canvas>
+            </div>
+            {% with user|get_invoice_balances as progress %}
+            <script>
+                var ctx2 = document.getElementById('doughnutChart2').getContext('2d');
+                var doughnutChart2 = new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                    
+                        datasets: [{
+                            data: [{{ progress }}, {{ progress|add:'-100' }}],
+                            backgroundColor: ['#36A2EB', '#FF6384'],
+                        }]
+                    },
+                });
+            </script>
+            {% endwith %}
+        </div>
+    </a>
+
+    
+        
+    </div>
+</div>
+
+
+
+<div style="display: grid;grid-template-columns: 65% 35%;column-gap: 30px;width: 90%;margin: 0 auto;margin-top: 35px;">
+            
+    <div class="data-card" style="height: 450px;width: 100%;" style="color: white !important;z-index: 1000;">
+        
+        <div class="four">
+            <a href="{% url 'processed-fee-payments' %}">
+            <div class="service-card" style="background-color: #ffd3b6;color: #524a79;">
+                <h6 class="text-center">Fee Payments</h6>
+                <p>View and manage fee payments</p>
+        
+        
+            </div>
+        </a>
+        <a href="{% url 'invoices' %}">
+            <div class="service-card" style="background: #fcf8f3;color: #524a79;">
+                <h6 class="text-center">Invoices</h6>
+                <p>Create, view and manage invoices for products and services received</p>
+        
+            </div>
+        </a>
+        <a href="{% url 'salary-payments' %}">
+            <div class="service-card" style="background: #bbded6;color: #574d88;">
+                <h6 class="text-center">Salaries</h6>
+                <p>Add and manage salary payments.</p>
+        
+            </div>
+        </a>
+        <a href="{% url 'expenses' %}">
+            <div class="service-card" style="background-color: rgba(29, 25, 46, .8);color: white;">
+                <h6 class="text-center">Expenses</h6>
+                <h6>Create and manage expences incurred.</h6>
+        
+            </div>
+        </a>
+          
+        </div>
+    </div>
+
+
+    <div class="data-card" style="width: 100% !important;height: 450px;">
+    <h5><i class="bi bi-bezier"> </i> Panel</h5>
+    <br>
+    <div style="padding-left: 20px;color: white !important;" >
+        <a href="{% url 'students-view' %}" style="color: white;"><i class="bi bi-bezier2"> </i> Add Fee Payment</a>
+        <hr>
+        <a href="{% url 'salary-payments' %}" style="color: white;"><i class="bi bi-bezier2" > </i> Salary Payments</a>
+        <hr>
+        <a href="{% url 'fees-list' %}" style="color: white;"><i class="bi bi-bezier2" > </i> Fee Configurations</a>
+        <hr>
+        <a href="{% url 'terms' %}" style="color: white;"><i class="bi bi-bezier2" > </i> Term Management</a>
+        <hr>
+        <a href="{% url 'school-fees-balances' %}" style="color: white;"><i class="bi bi-bezier2" > </i> Fee Balances</a>
+    </div>
+    
+    </div>
+
+</div>
+
+
+
+
+
+
+<div  style="background-color:#524a79;margin-top: 60px;">
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<script>
+    // Sample data for the bar graph
+    const data = {
+        labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+        datasets: [{
+            label: 'Expense Data',
+            backgroundColor: '#ffb6b9',
+            borderColor: 'rgba(25, 125, 55, 1)',
+            borderWidth: 1,
+            data: [{{ year|get_expenses:'1' }}, {{ year|get_expenses:'2' }}, {{ year|get_expenses:'3' }}, {{ year|get_expenses:'4' }}, {{ year|get_expenses:'5' }}, {{ year|get_expenses:'6' }}, {{ year|get_expenses:'7' }}, {{ year|get_expenses:'8' }}, {{ year|get_expenses:'9' }}, {{ year|get_expenses:'10' }}, {{ year|get_expenses:'11' }}, {{ year|get_expenses:'12' }}]
+},
+    {
+        label: 'Income Data',
+            backgroundColor: '#61c0bf',
+                borderColor: '#61c0bf',
+                    LabelColor: '#61c0bf',
+                        borderRadius: '5px',
+                            borderWidth: 1,
+                                data: [{{ year|get_incomes:'1' }}, {{ year|get_incomes:'2' }}, {{ year|get_incomes:'3' }}, {{ year|get_incomes:'4' }}, {{ year|get_incomes:'5' }},{{ year|get_incomes:'6' }},{{ year|get_incomes:'7' }},{{ year|get_incomes:'8' }},{{ year|get_incomes:'9' }}, {{ year|get_incomes:'10' }}, {{ year|get_incomes:'11' }}, {{ year|get_incomes:'12' }}]
+    }]
+};
+
+    // Configuration options for the bar graph
+    const options = {
+        scales: {
+            x: {
+                ticks: {
+                    color: 'white', // Set the color of X-axis labels
+                }
+            },
+            y: {
+                ticks: {
+                    color: 'white', // Set the color of Y-axis labels
+                },
+                beginAtZero: true
+
+            }
+        }
+
+    };
+
+    // Create the bar chart
+    const ctx = document.getElementById('barChart').getContext('2d');
+    const barChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+    });
+</script>
+
+{% endblock %}

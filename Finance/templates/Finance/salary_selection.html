@@ -1,0 +1,48 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+<div class="container">
+
+    <form method="post">
+        {% csrf_token %}
+        <a href="{% url 'salary-payments' %}" style="color: white;" class="btn btn-info">Salary Payments</a>
+        
+        <br><br>
+    
+
+    <table class="table" >
+        <thead>
+          <tr>
+            <th><input type="checkbox"></th>
+            <th><h6>Users</h6></th>
+            <th><h6>Role</h6></th>
+            <th><h6>Salary</h6></th>
+            <th><h6>Balance</h6></th>
+            <th><h6>.</h6></th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            {% for user in users %}
+            <tr>
+              <td><input type="checkbox" value="{{ user.user.email }}" name="selected"></td>
+              <td><a href="{% url 'teachers-profile' user %}"><h6>{{ user.user.personalprofile.f_name }} {{ user.user.personalprofile.l_name }} {{ user.user.personalprofile.surname }}</h6></a></td>
+              <td>{{ user.user.role }}</td>
+              <td>{{ user.salary }}</td>
+              <td>{{ user.balance }}</td>
+              <td><a href="{% url 'disburse' user %}"><i class="bi bi-cash"> </i></a> </td>
+            </tr>
+            {% endfor %}
+         
+        </tbody>
+     </table>
+
+
+    </form>
+
+
+</div>
+
+{% endblock %}

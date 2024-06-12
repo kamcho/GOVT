@@ -1,0 +1,270 @@
+{% extends 'Supervisor/base.html' %}
+{% load supervisor_filters %}
+{% load static %}
+{% block content %}
+
+
+<br>
+<br>
+<br>
+<br>
+
+
+<!--<h6>{{ user.role }}</h6>-->
+<div class="bg-gradient" >
+ <div class="subject-select-content-contaier" >
+    <br>
+    <br>
+    <br>
+    <br>
+  
+   
+    <div class="users-view">
+        <div class="user-card">
+            All Users<br>
+            <h4 style="font-size: 50px;">{{ users }}</h4>
+
+        </div>
+        <a class="no-style" href="{% url 'students-view' %}">
+            <div class="user-card">
+                <i class="bi bi-people"> </i>Students<br>
+                <h4 style="font-size: 50px;" >{{ students }}</h4>
+                <small><i class="bi bi-gender-male"> </i>Males {{ males }} | <i class="bi bi-gender-female"> </i>Females {{ females }}</small>
+                
+            </div>
+        </a>
+        <a class="no-style" href="{% url 'teachers-view' %}">
+            <div class="user-card">
+                <i class="bi bi-display"> </i>Teachers<br>
+                <h4 style="font-size: 50px;">{{ teachers }}</h4>
+                <small><i class="bi bi-gender-male"> </i>Males {{ t_males }} | <i class="bi bi-gender-female"> </i>Females {{ t_females }}</small>
+                
+
+            </div>
+        </a>
+        
+        <a class="no-style" href="{% url 'guardians-view' %}">
+          <div class="user-card">
+            <i class="bi bi-people"> </i> Guardians<br>
+            <h4 style="font-size: 50px;">{{ parents }}</h4>
+            <small><i class="bi bi-gender-male"> </i>Males {{ g_males }} | <i class="bi bi-gender-female"> </i>Females {{ g_females }}</small>
+
+          </div>
+        </a>
+
+    </div>
+
+
+<br><br>
+
+
+
+
+
+<div >
+
+
+    <div style="display: grid;grid-template-columns: 65% 32%;column-gap: 30px;width: 90%;margin: 0 auto !important;;margin-top: 5px;">
+            
+        <div class="data-card" style="height: 450px;" style="color: white !important;z-index: 1000;">
+            
+            <div class="four">
+                <a href="{% url 'terms' %}">
+                <div class="service-card" style="background-color: #ffd3b6;color: #524a79;">
+                    <h6 class="text-center">Terms</h6>
+                    <p>Create and manage terms information.</p>
+            
+            
+                </div>
+            </a>
+            <a href="{% url 'create-course' %}">
+                <div class="service-card" style="background: #fcf8f3;color: #524a79;">
+                    <h6 class="text-center">E-Courses</h6>
+                    <p>Manage course and subjects information.</p>
+            
+                </div>
+            </a>
+            <a href="{% url 'salary-payments' %}">
+                <div class="service-card" style="background: #bbded6;color: #574d88;">
+                    <h6 class="text-center">Manage Teachers</h6>
+                    <p>Add and manage class teachers.</p>
+            
+                </div>
+            </a>
+            <a href="{% url 'transactions' %}">
+                <div class="service-card" style="background-color: rgba(29, 25, 46, .8);color: white;">
+                    <h6 class="text-center">Discipline</h6>
+                    <h6>Create and manage Indiscipline incidents</h6>
+            
+                </div>
+            </a>
+              
+            </div>
+        </div>
+    
+    
+        <div class="data-card" style="height: 450px;">
+        <h6><i class="bi bi-bezier"> </i> Panel</h6>
+        <hr>
+        <div style="padding-left: 20px;color: white !important;" >
+            <a href="{% url 'notices' %}" style="color: white;"><i class="bi bi-bezier2"> </i> Announcements</a>
+            <hr>
+            <a href="{% url 'promote' %}" style="color: coral;"><i class="bi bi-bezier2" > </i> Promote Classes</a>
+            <hr>
+            <a href="{% url 'migrate-fees' %}" style="color: coral;"><i class="bi bi-bezier2" > </i> Migrate Fee Balances</a>
+            <hr>
+            <a href="{% url 'terms' %}" style="color: white;"><i class="bi bi-bezier2" > </i> Create Class</a>
+            <hr>
+            <a href="{% url 'school-fees-balances' %}" style="color: white;"><i class="bi bi-bezier2" > </i> Fee Balances</a>
+        </div>
+        
+        </div>
+    
+    </div>
+
+    
+
+<br><br>
+<div  class="insight">
+    
+    <br><br>
+    <form method="post" style="width: 80%;margin: auto auto;">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            <input type="number" class="form-control" placeholder="{{ year }}" name="year" required>
+
+            <select class="form-select" aria-label="Default select example" name="term" required>
+                <option value="{{ term }}" selected>{{ term }}</option>
+                <option value="Term 1">Term 1</option>
+                <option value="Term 2">Term 2</option>
+                <option value="Term 3">Term 3</option>
+                
+        
+        
+              </select>
+            <button class="btn btn-dark" type="submit">SET</button>
+        </div>
+    </form>
+    <br>
+    <div class="admin-2">
+        <div style="width: 85%;margin: auto auto;">
+            <canvas id="myChart" ></canvas>
+        </div>
+
+       
+
+    </div>
+    
+  </div>
+
+  
+  <br><br><br><br>
+
+
+
+<div class="subjects-select-view" >
+    <a href="{% url 'subject-view' 4 %}" class="no">
+
+        <div class="subject-select-card" >
+            <h6>Analyticss</h6>
+            <img src="{% static 'Supervisor\GOLD-6487-CareerGuide-Batch04-Images-GraphCharts-01-Line.jpg' %}" style="width: 100%;height: auto;">
+        </div>
+    </a>
+    <a href="{% url 'classes' %}">
+        <div class="subject-select-card">
+        <h6>Classes</h6>
+        <img src="{% static 'Supervisor\funny-alphabet-with-kids-abcd-vector-1303233.webp' %}" style="background-repeat: no-repeat; background-position: center center; width: 100% !important;">
+    </div>
+    </a>
+    
+    <a href="{% url 'school-assignments' %}">
+        <div class="subject-select-card">
+            <!-- <img src="{% static 'Supervisor\funny-alphabet-with-kids-abcd-vector-1303233.webp' %}" style="background-repeat: no-repeat; background-position: center center;"> -->
+        <h6>Assignments</h6>
+        <p>View  class assignments results analytics.</p>
+        
+    </div>
+</a>
+ 
+
+
+</div>
+
+<script>
+    var labels = {{ chart_data.labels|safe }};
+    var datasets = {{ chart_data.datasets|safe }};
+
+    var config = {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: datasets,
+        },
+        options: {
+            scales: {
+                y: {
+                    type: 'linear',
+                    position: 'bottom',
+                    title: {
+                        display: true,
+                        text: 'Number Of Students'
+                    }
+                },
+                x: {
+                    beginAtZero: false,
+                    title: {
+                        display: true,
+                        text: 'Total Marks Distribution'
+                    }
+                }
+            }
+        }
+    };
+
+    // Get the canvas element and render the chart
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, config);
+</script>
+  
+
+<script>
+    // Example data for different categories
+    var data = {
+        labels: ['Paid', 'Not Paid'],
+        datasets: [{
+            data: [60, 40], // Adjust the values as needed
+            backgroundColor: ['#4CAF50', '#FFC107'], // Adjust the colors as needed
+            hoverBackgroundColor: ['#45A049', '#FFA000'], // Hover colors
+            borderWidth: 1,
+        }]
+    };
+
+    var config = {
+        type: 'doughnut',
+        data: data,
+        options: {
+            cutout: '80%', // Adjust the cutout percentage as needed
+            fontColor:'white',
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom', // Adjust the legend position as needed
+                    labels: {
+                    fontColor: 'white', // Set the font color of the legend labels
+                },
+                }
+            }
+        }
+    };
+
+    var ctx = document.getElementById('feeClearanceChart').getContext('2d');
+    var myChart = new Chart(ctx, config);
+    var ctx = document.getElementById('feeClearanceChart2').getContext('2d');
+    var myChart = new Chart(ctx, config);
+    var ctx = document.getElementById('feeClearanceChart3').getContext('2d');
+    var myChart = new Chart(ctx, config);
+</script>
+
+</div>
+</div>
+{% endblock %}

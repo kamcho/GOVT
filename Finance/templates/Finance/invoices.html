@@ -1,0 +1,48 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+<div class="container">
+
+    <a class="btn btn-info" href="{% url 'invoice-payments' %}" style="color: white;">Payments</a>
+    <a class="btn btn-primary" href="{% url 'create-invoice' %}">Create Invoice</a>
+    <br><br>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th><h6><input type="checkbox"></h6></th>
+        <th><h6>Id</h6></th>
+        <th><h6>User</h6></th>
+         <th><h6>Date</h6></th>
+        <th><h6>Amount</h6></th>
+        <th><h6>Status/Balance</h6></th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      {% for invoice in invoices %}
+        <tr>
+          
+          <td><input type="checkbox"></td>
+          <td><a ><h6>{{ forloop.counter }}</h6></a></td>
+          <td><a href="{% url 'invoice-id' invoice.id %}">{{ invoice.user.personalprofile.f_name }} {{ invoice.user.personalprofile.l_name }}</a></td>
+          <td>{{ invoice.date|date:"D d M Y"  }}</td>
+
+          <td>{{ invoice.amount }}</td>
+          {% if invoice.balance == 0 %}
+          <td style="color: green;">Cleared</td>
+          {% else %}
+          <td style="color: crimson;">{{ invoice.balance }}</td>
+          {% endif %}
+      
+          
+        </tr>
+      {% endfor %}
+    </tbody>
+ </table>
+
+</div>
+
+ {% endblock %}

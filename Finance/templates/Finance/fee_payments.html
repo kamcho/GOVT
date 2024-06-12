@@ -1,0 +1,99 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+<div class="container">
+  <a href="{% url 'raw-fee-payments' %}"><button id="downloadPdf" class="btn btn-secondary" style="position: fixed; right: 14.5%;top: 10%;">Raw Fee Payments</button></a>
+
+  <h6>Processed Fee Payments</h6>
+  <br>
+
+    <form  method="post">
+        {% csrf_token %}
+       <div class="input-group mb-3">
+            <span class="input-group-text">From</span>
+            <input type="date" class="form-control" pattern="" name="date" placeholder="01/12/2023" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <span class="input-group-text">To</span>
+            <input type="date" class="form-control" name="to" placeholder="From" aria-label="Recipient's username" aria-describedby="button-addon2">
+            
+            <span class="input-group-text">Adm No</span>
+            <input type="text" class="form-control" name="adm_no" placeholder="search by user, phone, adm" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <span class="input-group-text">Mode</span>
+            <select class="form-select" id="roleSelect" aria-label="Default select example" name="mode" >
+              <option ></option>
+              <option value="M-Pesa">M-Pesa</option>
+              <option value="Bank">Bank</option>
+            </select>
+       </div>
+       <div class="input-group">
+        <span class="input-group-text">Receipt</span>
+            <input type="text" class="form-control" name="receipt" placeholder="QWERTYUIOP" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <span class="input-group-text">Phone</span>
+            <input type="text" class="form-control" name="phone" placeholder="phone" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <span class="input-group-text">Account</span>
+            <select class="form-select" id="roleSelect" aria-label="Default select example" name="account" >
+              <option ></option>
+              <option value="10002332432">KCB</option>
+              <option value="13222839272">Equity</option>
+            </select>
+            <button class="btn btn-outline-secondary" >Filter / Reset</button>
+       </div>
+        </form>
+        <br>
+
+        <div style="height: 550px;overflow-y: scroll;">
+
+       
+<table class="table" >
+  <caption>Query Totals {{ totals }}</caption>
+    <thead >
+      <tr style="">
+        <th><h6><input type="checkbox"></h6></th>
+        <th><h6>Id</h6></th>
+         <th><h6>User</h6></th>
+         <th><h6>Transaction ID</h6></th>
+        <th><h6>Date</h6></th>
+        <th><h6>Account</h6></th>
+        <th><h6>Amount</h6></th>
+        <th><h6>Balance</h6></th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      {% for payment in transactions %}
+        
+            <tr>
+                
+          
+                <td><input type="checkbox"></td>
+                <td><a ><h6>{{ forloop.counter }}</h6></a></td>
+
+                {% if payment.user.personalprofile.f_name %}
+                <td><a href="{% url 'students-profile' payment.user %}">{{ payment.user.personalprofile.f_name }} {{ payment.user.personalprofile.suname }} {{payment.user.personalprofile.l_name}}</a></td>
+                {% else %}
+                <td><a href="{% url 'students-profile' payment.user %}">{{ payment.user }}</a></td>
+                {% endif %}
+                
+                <td><a href="{% url 'manage-fee-payment' payment.id %}">{{ payment.transaction_id.receipt }}</a></td>
+                <td>{{ payment.date|date:"D d M Y" }}</td>
+                {% if payment.transaction_id.mode == 'Bank' %}
+                  <td><small>{{ payment.transaction_id.mode }} </small> | {{ payment.transaction_id.account }}</td>
+                {% else %}
+                  <td><small>{{ payment.transaction_id.mode }} </small> | {{ payment.transaction_id.msdn }}</td>
+                {% endif %}
+                <td>{{ payment.transaction_id.amount }}</td>
+                <td>{{ payment.balance }}</td>
+                
+                
+                
+              </tr>
+        
+        
+      {% endfor %}
+    </tbody>
+ </table>
+</div>
+ </div>
+
+ {% endblock %}

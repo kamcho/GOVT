@@ -1,0 +1,54 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+<div class="container">
+
+    <a href="{% url 'salary-payments' %}" class="btn btn-primary"><i class="bi bi-arrow-left"> </i> Back</a>
+    <br><br>
+    <div class="row mb-3">
+      
+    <div class="col-md-6">
+        <label  class="form-label">TransactionID</label>
+        <input type="text" class="form-control" name="amount" value="{{ transaction.user.personalprofile.f_name }} {{ transaction.user.personalprofile.l_name }} {{ transaction.user.personalprofile.surname }}"  placeholder="10,000" required>
+      </div>
+    <div class="col-md-6">
+      <label  class="form-label">TransactionID</label>
+      <input type="text" class="form-control" name="amount" value="{{ transaction.transaction_id }}"  placeholder="10,000" required>
+    </div>
+
+    </div>
+
+    <div class="row mb-3">
+    <div class="col-md-6">
+        <label  class="form-label">Payment Method</label>
+        <input type="text" class="form-control" name="amount" value="{{ transaction.mode }}"  placeholder="10,000" required>
+      </div>
+
+    <div class="col-md-6">
+        <label  class="form-label">Date</label>
+        <input type="text" class="form-control" name="amount" value="{{ transaction.date }}"  placeholder="10,000" required>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label  class="form-label">Amount</label>
+        <input type="number" class="form-control" name="amount" value="{{ transaction.amount }}"  placeholder="10,000" required>
+      </div>
+
+      <div class="col-md-6">
+        <label  class="form-label">Balance</label>
+        <input type="number" class="form-control" name="amount" value="{{ transaction.balance }}"  placeholder="10,000" required>
+      </div>
+    </div>
+    
+
+
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'Supervisor/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% if guardian %}
+<div class="container">
+        <br>
+        <br>
+        <br>
+        {% if user.role == 'Supervisor' %}
+        <div class="profile">
+            
+              <a href="{% url 'manage-user' guardian %}"><button class="btn btn-info">Manage Guardian</button></a>
+           
+        </div>
+        {% endif %}
+
+
+
+
+        <div class="">
+
+
+
+
+<br>
+
+  <div class="accordion" id="changePhoneNumberAccordion">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="changePhoneNumberHeader">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#changePhoneNumberCollapse" aria-expanded="true" aria-controls="changePhoneNumberCollapse">
+          <small>Edit Profile</small>
+        </button>
+      </h2>
+      <div id="changePhoneNumberCollapse" class="accordion-collapse" aria-labelledby="changePhoneNumberHeader" data-bs-parent="#changePhoneNumberAccordion">
+        <div class="accordion-body">
+          
+            <div class="form-group">
+              <label for="first-name">First Name</label>
+              <input  name="first-name" id="first-name" class="form-control" value="{{ guardian.personalprofile.f_name }}" readonly>
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name</label>
+              <input  name="last-name" class="form-control" id="last-name" value="{{ guardian.personalprofile.l_name }}" readonly>
+            </div>
+            <div class="form-group">
+              <label for="surname">Surname</label>
+              <input id="surname"  name="surname" class="form-control" value="{{ guardian.personalprofile.surname }}" readonly>
+            </div>
+            <div class="form-group">
+              <label for="phone-number">Phone Number</label>
+              <input type="tel" name="phone-number" class="form-control" id="phone-number" placeholder="{{ guardian.personalprofile.phone }}" readonly>
+            </div>
+
+              <br>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+            <br>
+            <br>
+        </div>
+  
+  
+        
+
+
+        
+
+    
+    
+    
+
+
+</div>
+{% endif %}
+{% endblock %}

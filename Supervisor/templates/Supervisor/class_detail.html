@@ -1,0 +1,99 @@
+{% extends base_html %}
+{% load custom_filters %}
+
+
+
+{% block content %}
+<br><br><br>
+
+<div class="bg-gradient">
+   <br><br><br>
+<div class="container" >
+    
+    
+    <a href="{% url 'class-list' class.class_id %}">
+      <button type="button" class="btn btn-secondary"  style="padding-left: 20px;">{{ class|title }} Class List </button> </a>
+   
+
+   <br>
+   <a class="btn btn-primary" style="position: absolute;top: 70px;right: 110px;" href="{% url 'class-exam-analytics' class.class_id %}">DATALYTICS</a>
+   <br><br>
+
+   
+
+
+    {% if not subjects %}
+    <h6>We could not find Subjects for Grade {{ grade }}</h6>
+ {% else %}
+
+ <div style="background-color: rgba(29, 25, 46, .8);">
+    <br>
+    <form  method="post" style="padding: 30px;">
+        {% csrf_token %}
+       <div class="input-group mb-3">
+        <select class="form-select" aria-label="Default select example" name="year">
+            <option value="{{ grade }}">Grade {{ grade }}</option>
+            <option value="1">Grade 1</option>
+            <option value="2">Grade 2</option>
+            <option value="3">Grade 3</option>
+            <option value="4">Grade 4</option>
+            <option value="5">Grade 5</option>
+            <option value="6">Grade 6</option>
+            <option value="7">Grade 7</option>
+            <option value="8">Grade 8</option>
+    
+    
+          </select>  
+            <span class="input-group-text">Term</span>
+            <select class="form-select" aria-label="Default select example" name="term">
+                <option value="{{ term }}">{{ term }}</option>
+                <option value="Term 1">1</option>
+                <option value="Term 2">2</option>
+                <option value="Term 3">3</option>
+            </select>  
+            <button class="btn btn-warning" >Filter</button>
+       </div>
+        </form>
+ 
+
+    <div class="users-view" style="width: 100%;padding: 30px;">
+
+        <a href="{% url 'class-students-ranking' class.class_id %}">
+            <div class="class-subject-card" style="">
+
+                <h6>Class Overall {% get_class_overall_average class.class_id grade term %}</h6>
+               
+
+            </div>
+        </a>
+        
+            {% for subject in subjects %}
+                {% if term.term %}
+                <a href="{% url 'class-subject-detail' class.class_id subject.id term.term.id %}">
+            {% else %}
+            <a href="{% url 'class-subject-detail' class.class_id subject.id term %}">
+
+            {% endif %}
+                    <div class="class-subject-card" >
+
+                        <h6>{{ subject }}</h6>
+                        <h6>Highest {% get_class_highest class.class_id subject.id term %}</h6>
+                        <h6>Lowest  {% get_class_lowest  class.class_id subject.id term %}</h6>
+                        <p>Average {% get_class_average class.class_id subject.id term %}</p>
+
+                    </div>
+                </a>
+            {% endfor %}
+    {% endif %}
+
+    </div>
+
+</div>
+
+    <br><br>
+    <div></div>
+</div>
+
+
+
+{% endblock %}

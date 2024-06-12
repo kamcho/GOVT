@@ -1,0 +1,285 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Excel Academy</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Using package from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@weavy/dropin-js@18.0.1/dist/weavy.js" crossorigin="anonymous"></script>
+<script>
+  const access_token = "{{ request.session.access_token }}";
+  // url to your Weavy environment
+  Weavy.url = "https://ced0667cb8b14d76ba02bf7764860ddc.weavy.io";
+  // token factory that returns the access_token for your demo user
+  Weavy.tokenFactory = async () => access_token;
+</script>
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <link  rel="stylesheet" type="text/css" href="{% static 'Users/styles.css' %}">
+  <link  rel="stylesheet" type="text/css" href="{% static 'SubjectList/SubjectLiist.css' %}">
+  <link  rel="stylesheet" type="text/css" href="{% static 'Guardian/Guardian.css' %}">
+  <link  rel="stylesheet" type="text/css" href="{% static 'Teacher/Teacher.css' %}">
+  <link  rel="stylesheet" type="text/css" href="{% static 'Supervisor/Supervisor.css' %}">
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <meta name="google-site-verification" content="vd6s18YS9mfPMMoH5srkND_VurceXLA1D6g2eAWtIEE" />
+
+</head>
+<meta name="google-site-verification" content="vd6s18YS9mfPMMoH5srkND_VurceXLA1D6g2eAWtIEE" />
+
+<body class="base-html">
+
+
+
+
+    <nav class="navbar navbar-dark fixed-top" id="top-bar" style="background-color:rgba(29, 25, 46, .8);">
+      <div class="container-fluid">
+        <a class="zara"  href="#">Excel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" style="color:black;">
+       
+
+
+          <li>
+              <a class="nav-link" href="{% url 'home' %}" ><i class="bi bi-house" > </i>Home</a>
+          </li>
+          <li>
+            <a class="nav-link" href="{% url 'rout' %}" ><i class="bi bi-ui-checks" > </i>Portal</a>
+        </li>
+        <li>
+            <a  href="{% url 'home' %}#about" ><i class="bi bi-people" > </i>About Us</a>
+        </li>
+          
+
+          <li>
+            <a class="nav-link" href="{% url 'home' %}#contact" ><i class="bi bi-headset" > </i>Contact Us</a>
+        </li>
+
+       
+
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    
+
+
+<div class="" style="padding-top: 9px; margin: 0%;">
+    
+    <br><br>
+    <div class="cotainer" style="color: white;">
+        
+        
+        <img src="{% static 'Users/Home.png' %}" width="100%"  style="object-fit: cover;"  >
+        
+    </div>
+
+
+<div style="background-color: #132743;" >
+    <br><br>
+    <h5 class="text-center" style="color: rgb(255, 255, 255);">Curricular</h5>
+    <br>
+    <div class="event-view" style="text-align: center ;column-gap: 20px; color: rgb(19, 19, 19);padding: 20px;margin: 20px auto;" >
+        <div class="event-card" style="height: 450px;padding: 0 !important;margin: 0;">
+            <img src="{% static 'Users/bg.png' %}" style="width: 100%;height: 60%;object-fit: cover;">
+            <br><br>
+            <h5>Lower Primary</h5>
+          
+            <h6 style="padding: 10px;">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem, facere assumenda nostrum perspiciatis omnis ipsam, eveniet </h6>
+            
+        </div>
+        <div class="event-card" style="height: 450px;padding: 0 !important;margin: 0;">
+            <img src="{% static 'Users/bg.png' %}" style="width: 100%;height: 60%;object-fit: cover;">
+            <br><br>
+            <h5>Upper Primary</h5>
+        
+            <h6 style="padding: 10px;">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem, facere assumenda nostrum perspiciatis omnis ipsam, eveniet </h6>        </div>
+        <div class="event-card" style="height: 450px;padding: 0 !important;margin: 0;">
+            <img src="{% static 'Users/bg.png' %}" style="width: 100%;height: 60%;object-fit: cover;">
+            <br><br>
+            <h5>Junior Secondary</h5>
+            <h6 style="padding: 10px;">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem, facere assumenda nostrum perspiciatis omnis ipsam, eveniet </h6>        </div>
+
+    </div>
+    <div style="margin-top: 50px;">
+.
+    </div>
+</div>
+
+<br><br>
+
+<div id="about">
+    <h5 class="text-center">About Us</h5>
+    <br>
+
+    <div class="two">
+        <div style="padding: 30px;">
+            <img src="{% static 'Users/bg.png' %}" width="90%" height="400" style="object-fit: cover;"  >
+        </div>
+        <div style="width: 90%;padding: 30px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+            <h5>Who Is Excel ?</h5>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat dicta saepe tempore, ipsum ipsam voluptatibus tenetur alias error voluptate dolorum quod assumenda perferendis, ullam accusantium, temporibus cumque officia explicabo odio.
+            <br><br>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore nesciunt quidem fugiat earum, in quo eius praesentium dolor vitae voluptas commodi illo repudiandae cumque recusandae minus illum quas cum ipsum!
+        </div>
+    </div>
+</div>
+
+<br><br>
+<div id="contact">
+    <h5 class="text-center">Contact Us</h5>
+    <br>
+
+    <div class="two" style="background: linear-gradient(109.6deg, rgb(36, 45, 57) 11.2%, rgb(16, 37, 60) 51.2%, rgb(0, 0, 0) 98.6%);">
+        <div style="padding: 30px;color: white;" >
+            <h6><i class="bi bi-phone"></i> Phone +254 742 134 431</h6>
+            <h6><i class="bi bi-envelope"></i> excel@gmail.com</h6>
+            <h6><i class="bi bi-whatsapp"></i> Whatsapp +254 742 134 431</h6>
+            <h6><i class="bi bi-facebook"></i> Excel Schools</h6>
+            <h6><i class="bi bi-tiktok"></i> @ExcelSchools</h6>
+            <h6><i class="bi bi-instagram"></i> @ExcelSchools</h6>
+        </div>
+        <div style="padding: 30px;">
+            <div class="accordion container" id="changePhoneNumberAccordion" >
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="changePhoneNumberHeader">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#changePhoneNumberCollapse" aria-expanded="true" aria-controls="changePhoneNumberCollapse">
+                      <small>Contact-Us</small>
+                    </button>
+                  </h2>
+                  <div id="changePhoneNumberCollapse" class="accordion-collapse" aria-labelledby="changePhoneNumberHeader" data-bs-parent="#changePhoneNumberAccordion">
+                    <div class="accordion-body">
+                      <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="first-name">Full Name*<small style="color: crimson;">(required)</small></label>
+                          <input  name="names" id="first-name" class="form-control" placeholder="John Doe" required>
+                        </div>
+                       
+                        
+                        <div class="form-group">
+                          <label for="surname">About</label>
+                          <input id="surname"  name="about" class="form-control" placeholder="How do i get this system for my church" required>
+                        </div>
+                        
+                       
+                        <br>
+                        <div class="form-group">
+                          <label for="phone-number">Message*<small style="color: crimson;">(required)</small></label>
+                          <textarea  name="message" class="form-control" rows="6"  required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone-number">Phone Number<small style="color: crimson;"></small></label>
+                            <input type="text" name="phone-number" class="form-control" id="phone-number" placeholder="0712345678"  required>
+                          </div>
+                          <div class="form-group">
+                            <label for="phone-number">Email<small style="color: crimson;">(required)</small></label>
+                            <input type="text" name="mail" class="form-control" id="phone-number" placeholder="johndoe@gmail.com"  required>
+                          </div>
+            
+                          <br>
+                        <button type="submit" class="btn btn-primary" name="profile">Send</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="updaes">
+        <h5 style="color: cornflowerblue;text-align: center;font-family: cursive;">Events and Announcements</h5>
+
+        <div class="updates-info">
+          
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Title {{ latest.title }}
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <strong>{{ latest.date }}.</strong> {{ latest.description }}
+                  <br><br>
+                  {% if latest.file %}
+                        <a href="{{ latest.file.url }}" download><i class="bi bi-cloud-arrow-down" style="font-size: 15px;color: cornflowerblue;"> Download File</i> </a>
+                        {% endif %}
+                </div>
+              </div>
+            </div>
+            {% for update in updates %}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ update.id }}" aria-expanded="false" aria-controls="collapse{{ update.id }}">
+                        {{ update.title }}
+                    </button>
+                </h2>
+                <div id="collapse{{ update.id }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>{{ update.date }}.</strong> {{ update.description }}
+                        <br><br>
+                        {% if update.file %}
+                        <a href="{{ update.file.url }}" download><i class="bi bi-cloud-arrow-down" style="font-size: 15px;color: cornflowerblue;"> Download File</i> </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+          
+          </div>
+          
+        </div>
+      </div>
+</div>
+
+    </div>
+
+    
+    {% if messages %}
+
+
+  <div class="text-center" style="position:relative;margin-top:55px;">
+    {% for message in messages %}
+      {% if message.tags ==  'error' %}
+        <h6 class="alert alert-danger">{{ message }}</h6>
+      {% elif message.tags == 'info' %}
+          <h6 class="alert alert-info">{{ message }}</h6>
+      {% elif message.tags == 'success' %}
+          <h6 class="alert alert-success">{{ message }}</h6>
+      {% elif message.tags == 'warning' %}
+          <h6 class="alert alert-warning">{{ message }}</h6>
+
+
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+
+
+</body>
+</html>

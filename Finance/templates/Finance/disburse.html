@@ -1,0 +1,89 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+<div class="container">
+
+
+    <button class="btn btn-secondary">{{ profile.user.personalprofile.f_name }} {{ profile.user.personalprofile.l_name }}</button>
+
+    <h6><button class="btn btn-primary">Salry {{ profile.salary }}</button> - <button class="btn btn-danger">Balance {{ profile.balance }}</button></h6>
+
+
+
+
+    <br><br>
+    <h5 style="font-family: cursive;" class="text-center">Add Salary Payment</h5>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="inputField2" class="form-label">Mode</label>
+                <select class="form-select" id="roleSelect" aria-label="Default select example" name="mode" required onchange="toggleAmountField()">
+                    
+                    <option value="M-PESA">M-PESA</option>
+                    <option value="CASH">CASH</option>
+                    <option value="KCB">KCB</option>
+                    <option value="EQUITY">EQUITY</option>
+                </select>
+            </div>
+    
+            <div class="col-md-6" id="tField" >
+                <label for="inputField2" class="form-label">Transaction ID</label>
+                <input type="text" class="form-control"  name="transaction" placeholder="QHD78GH46" >
+            </div>
+            
+                <div class="col-md-6" id="amountField" style="display: none;">
+                    <label for="inputField4" class="form-label">Amount</label>
+                    <input type="number" class="form-control" placeholder="20,000" name="amount">
+                </div>
+          
+        </div>
+        <br>
+    
+     
+        <br>
+    
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <div>.</div>
+    </form>
+    
+
+    
+    
+   
+
+
+</div>
+
+<script>
+    window.onload = function() {
+        var modeSelect = document.getElementById("roleSelect");
+        var amountField = document.getElementById("amountField");
+        var tField = document.getElementById("tField");
+
+
+        // Initially hide or show the amount field based on the selected mode
+        toggleAmountField(modeSelect.value);
+
+        // Add event listener to the mode select element
+        modeSelect.addEventListener("change", function() {
+            toggleAmountField(modeSelect.value);
+        });
+
+        function toggleAmountField(selectedMode) {
+            if (selectedMode === "CASH") {
+                amountField.style.display = "block";
+                tField.style.display = "none";
+            } else {
+                amountField.style.display = "none";
+                tField.style.display = "block";
+            }
+        }
+    };
+</script>
+
+
+{% endblock %}

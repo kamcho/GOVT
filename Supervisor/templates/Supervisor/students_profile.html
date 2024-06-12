@@ -1,0 +1,146 @@
+{% extends base_html %}
+{% load custom_filters %}
+
+{% block content %}
+
+
+<br>
+<br>
+<br>
+<br>
+<div class="bg-gradient">
+    <br><br><br>
+<div  >
+    <div class="container">
+    {% if user.role == 'Supervisor' %}
+    <a  href="{% url 'manage-user' student %}" class="btn btn-primary" style="color: white;">Manage Student</a>
+    {% endif %}
+    <br>
+    
+    
+    <div class="badge bg-dark">
+        <h5 >{{ student.personalprofile.f_name|title }} {{ student.personalprofile.l_name.0|title }}. {{ student.personalprofile.surname|title }}</h5>
+        <small style="color: cornflowerblue;">{{ student.school }}</small>
+        {% if user.role == 'Student' %}
+            <a class="btn btn-info" href="{% url 'update-profile' student %}">Edit Profile</a>
+      
+        {% endif %}
+    </div>
+</div>
+
+    
+    <br><br>
+    <div class="profile-card" style="margin: 0 auto;">
+        <div class="test-progress">
+        {% for subject in subjects %}
+            <div>{% with  student|get_student_latest_score:subject.id  as score %}
+                {{ subject.course.abbreviation }}
+                <br><br>
+                <div class="d-flex" style="height: {{ score }}px; color: rgb(0, 0, 0);">
+                    <div class="vr" style="width: 10px;"></div>    <br><br>     
+                </div>
+                <div>{{ score }}</div>
+                {% endwith %}
+            </div>
+        {% endfor %}
+        </div>
+
+        <div class="user-info">
+            <h6>{{ student.personalprofile.f_name|title }} {{ student.personalprofile.l_name.0|title }}. {{ student.personalprofile.surname|title }}</h6>
+            <p>{{ student.school }}</p>
+            <p>Grade {{ student.academicprofile.current_class|title }}</p>
+            <p>Adm No {{ student.adm_no }}</p>
+            <p>Discipline Score <button class="btn btn-info" style="color: white;">{{ student.studentdisciplinescore.points }}</button></p>
+            {% if user.role == 'Receptionist' or user.role == 'Guardian' %}
+            <p>School Fees Balance <button  class="btn btn-info" style="color: white;">{{ student.studentsfeeaccount.balance }}</button></p>
+            {% endif %}
+            {% if student.is_active %}
+                <p style="color:green">Active</p>
+            {% else %}
+                <p style="color:rgb(255, 12, 44)">In-Active </p>
+            {% endif %}
+
+
+        </div>
+    </div>
+</div>
+<br><br>
+
+<div class="users-view" style=" ">
+
+    <a   href="{% url 'students-exam-profile' student %}">
+        <div class="user-card" style="height: 200px !important;">
+            <h5>Exams</h5>
+            <h6 >Excel Learning</h6>
+            
+            
+            <br>
+            <p>To view students school graded exams, click here                
+            </p>
+            
+
+        </div>
+    </a>
+    {% if user.role != 'Student' %}
+        <a href="{% url 'task-view-select' student %}">
+        <div class="user-card" style="height: 200px !important;">
+            <h5>E-Learning</h5>
+            <h6 >I AM Learning</h6>
+            
+            <br>
+            <p>To view a students online learning progress and exams click here
+                
+            </p>
+
+           
+  
+        </div>
+    </a>
+    {% endif %}
+
+
+
+    <a href="{% url 'students-discipline' student %}">
+        <div class="user-card" style="height: 200px !important;">
+            <h6>Extra Curricular</h6>
+            <br>
+            <p>View students discipline, conduct and Extra Curricular activities</p>
+            
+        </div>
+    </a>
+    {% if user  %}
+
+    <a href="{% url 'student-fee-profile' student %}">
+        <div class="user-card" style="height: 200px !important;">
+            Fee Management
+            <p>View and manage fee payments.</p>
+    
+            
+        </div>
+    </a>
+
+    {% endif %}
+    
+    {% if request.user.role != 'Teacher' %}
+    <div>
+        <div class="user-card" style="height: 200px !important;">
+            Guardians
+    
+            {% for parent in guardians %}
+            <a href="{% url 'guardian-view' parent %}" style="color: white;" ><p>{{ parent }}</p></a>
+        {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+
+</div>
+<br><br>
+
+
+
+</div>
+
+
+
+{% endblock %}

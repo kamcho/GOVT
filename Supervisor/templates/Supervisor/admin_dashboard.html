@@ -1,0 +1,77 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+
+
+
+{% block content %}
+
+<br><br>
+<div class="bg-gradient">
+
+<div class="container">
+  
+    
+
+    <div class="subjects-select-view" >
+      
+        
+        <a href="{% url 'create-term' %}" >
+            <div class="subject-select-card" style="height: 210px;">
+                <h6 style="color: cornflowerblue;"><i class="bi bi-pen"> </i> Set Term Info</h6>
+                <p>Create and set the beginning and end of terms.</p>
+               
+                
+            </div>
+        </a>
+
+        <a href="{% url 'create-course' %}">
+            <div class="subject-select-card" style="height: 220px;">
+                <h6 style="color: cornflowerblue;"><i class="bi bi-book"> </i> School Course Management</h6>
+                <p>Create and manage courses, subjects, topics and subtopics</p>
+               
+                
+            </div>
+        </a>
+
+        <a href="{% url 'incidents' %}">
+            <div class="subject-select-card" style="height: 220px;">
+                <h6 style="color: cornflowerblue;"><i class="bi bi-shield"> </i> Discipline</h6>
+                <p>Set discipline score before suspension.</p>
+            </div>
+        </a>
+
+        <a class="nav-link" href="{% url 'create-notice' %}">
+            <div class="subject-select-card" style="height: 220px;">
+                <h6 style="color: cornflowerblue;"><i class="bi bi-speaker"> </i> Announcements</h6>
+                <p>Create notice updates and announcements.</p>
+            </div>
+
+        </a>
+
+        <a class="nav-link" href="{% url 'class-teacher' %}">
+            <div class="subject-select-card" style="height: 220px;">
+                <h6 style="color: cornflowerblue;"><i class="bi bi-people"> </i> Manage Class Teachers</h6>
+                <p>Update and set class techer information.</p>
+            </div>
+
+        </a>
+
+        <a class="nav-link" href="{% url 'activities' %}">
+            <div class="subject-select-card" style="height: 220px;">
+                <h6 style="color: cornflowerblue;"><i class="bi bi-controller"> </i> Extra Curricular</h6>
+                <p>Create and manage schools Extra Curricular activities.</p>
+            </div>
+
+        </a>
+
+        
+
+
+    </div>
+
+
+</div>
+
+</div>
+
+{% endblock %}

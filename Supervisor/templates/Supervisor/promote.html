@@ -1,0 +1,37 @@
+{% extends 'Teacher/teachers_base.html' %}
+{% block content %}
+
+
+
+    <br><br><br><br>
+    <div class="container" style="width: 95%;margin: 30px auto;column-gap: 30px ;display: grid;grid-template-columns: 45% 45%;">
+        <div class="">
+        <h6>Promote All Classes</h6>
+        <p>By clicking the button beleow you are going to :
+            <p>1) Promote all active classes in the school system</p>
+            <p>2) Archive classes that have completed the junior secondary level</p>
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <button class="btn btn-primary" name="promote">Promote</button>
+        </form>
+
+    </div>
+  
+    <div class="" >
+        <h6>Demote All Classes</h6>
+        <p>By clicking the button beleow you are going to :
+            <p>1) Demote all active classes in the school system</p>
+            <p>2) Un-Archive classes that have recently been archived or completed the junior secondary level</p>
+        </p>
+        <form method="post">
+            {% csrf_token %}
+
+            <button class="btn btn-danger" name="demote">De-mote</button>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

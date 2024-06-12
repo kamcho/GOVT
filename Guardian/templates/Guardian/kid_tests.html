@@ -1,0 +1,62 @@
+{% extends base_html %}
+{% load custom_filters %}
+
+{% block content %}
+
+<div class="subject-select-content-container">
+    <br>
+<br>
+      <br>
+      <form>
+        <div class="dropdown" style="padding-left:25px;">
+            <button class="btn btn-secondary dropdown-toggle" name="select" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Grade {{ grade }}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="{% url 'kid-test' email 4  %}">4</a></li>
+                <li><a class="dropdown-item" href="{% url 'kid-test' email 5  %}">5</a></li>
+                <li><a class="dropdown-item" href="{% url 'kid-test' email 6  %}">6</a></li>
+                <li><a class="dropdown-item" href="{% url 'kid-test' email 7  %}">7</a></li>
+            </ul>
+        </div>
+    </form>
+    <br>
+
+{% if not subjects %}
+ 
+
+    {% else %}
+
+      <div class="subjects-select-view">
+        {% for subject in subjects %}
+            <a href="{% url 'kid-exam-topic-id' child subject.id %}">
+                <div class="subject-select-card">
+                    <div class="">
+                        <h6><i class="bi bi-bookmark-plus"></i> {{ subject }}.</h6>
+                    </div>
+                    <br>
+
+                    <div class="kid-exam-topics-card">
+                        <small class="text-muted">Subtopics</small><br>
+                        {% for topic in child|get_topics:subject.id %}
+
+                            <small>{{ topic.topic__name }}</small><br>
+                        {% endfor %}
+                    </div>
+                    <div class="kid-exam-progress-card">
+                        <small >Tests Done  <span class="badge bg-info" style="margin-left: 38px;">{{ child|get_test_count:subject }}</span></small>
+                <br>
+                <small >Topics Covered  <span class="badge bg-secondary" style="margin-left:12px;">{{ child|get_topic_count:subject }}</span></small>
+                <br>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+      </div>
+
+{% endif %}
+
+</div>
+{% endblock %}
+

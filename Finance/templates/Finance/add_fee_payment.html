@@ -1,0 +1,168 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+<div class="container">
+
+
+    {% if student %}
+    
+    <button class="btn btn-primary">Balance {{ profile.balance }}</button>
+    <br><br>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" value="{{ student.personalprofile.f_name }} {{ student.personalprofile.l_name }} {{ student.personalprofile.surname }}" aria-label="Username" readonly>
+        <span class="input-group-text">@</span>
+        <select class="form-select" aria-label="Default select example">
+            <option selected>{{ student }}</option>
+            
+          </select>
+      </div>
+
+      
+{% if Verify %}
+      <select class="form-select" aria-label="Default select example" id="paymentMethod" onchange="togglePaymentMethod()">
+        <option selected disabled hidden>Select Payment Method</option>
+        <option value="mpesa">M-Pesa</option>
+        <option value="bank">Bank</option>
+    </select>
+    <br><br>
+    <form method="post">
+        {% csrf_token %}
+    
+        <div id="mpesaFields" style="display: none;">
+            <div class="input-group mb-3"  >
+                <input type="text" class="form-control" placeholder="QWH6796IKL" name="transaction_id"  required>
+                <span class="btn btn-primary">Transaction ID</span>
+            </div>
+        
+            {% if not verified %}
+              <button class="btn btn-primary" name="mpesa">Verify</button>
+            
+            {% endif %}
+            
+        </div>
+        <br><br>
+
+        
+
+    </form>
+{% if phone %}
+<form method="post">
+    {% csrf_token %}
+<div class="input-group mb-3"  >
+    <input type="text" class="form-control" value="{{ transactionId }}"  name='transactionId' required readonly>
+    <!-- <input type="number" class="form-control" placeholder="5000" aria-label="amount" required> -->
+    <span class="btn btn-primary">Phone</span>
+</div>
+<div class="input-group mb-3"  >
+    <input type="text" class="form-control" value="{{ phone }}"  name="phone" required readonly>
+    <!-- <input type="number" class="form-control" placeholder="5000" aria-label="amount" required> -->
+    <span class="btn btn-primary">Phone</span>
+</div>
+
+<div class="input-group mb-3"  >
+    <input type="text" class="form-control" value="{{ billreference }}"  name="billreference" required readonly>
+    <!-- <input type="number" class="form-control" placeholder="5000" aria-label="amount" required> -->
+    <span class="btn btn-primary">Adm No</span>
+</div>
+<div class="input-group mb-3"  >
+    <input type="text" class="form-control" value="{{ trxDate }}"  name="trxDate" required readonly>
+    <!-- <input type="number" class="form-control" placeholder="5000" aria-label="amount" required> -->
+    <span class="btn btn-primary">Date</span>
+</div>
+<div class="input-group mb-3"  >
+    <input type="text" class="form-control" value="{{ amount }}"  name="amount" required readonly>
+    <!-- <input type="number" class="form-control" placeholder="5000" aria-label="amount" required> -->
+    <span class="btn btn-primary">Amount</span>
+</div>
+
+
+              <button class="btn btn-danger" name="m-pay">Submit</button>
+
+
+{% endif %}
+</form>
+    
+    <div class="input-group mb-3" id="bankFields" style="display:none;">
+        <!-- Add bank-specific input fields here -->
+        Bank-specific Input: <input type="text" id="bankInput" required>
+    </div>
+
+
+
+    
+    <script>
+        function togglePaymentMethod() {
+            var paymentMethod = document.getElementById("paymentMethod").value;
+            var mpesaFields = document.getElementById("mpesaFields");
+            var bankFields = document.getElementById("bankFields");
+    
+            if (paymentMethod === "mpesa") {
+                mpesaFields.style.display = "inline";
+                bankFields.style.display = "none";
+            } else if (paymentMethod === "bank") {
+                mpesaFields.style.display = "none";
+                bankFields.style.display = "block";
+            }
+        }
+    </script>
+{% else %}
+<form method="post">
+    {% csrf_token %}
+
+<div class="row mb-3">
+    <div class="col-md-6">
+    
+        <label for="inputField1" class="form-label">Transaction ID</label>
+        <input type="text" class="form-control" id="inputField1" name="receipt" placeholder="QHST674YSH" required>
+    </div>
+   
+    <div class="col-md-6">
+        <label for="inputField2" class="form-label">Amount</label>
+        <input type="number" class="form-control" id="inputField2" name="amount" placeholder="5300" required>
+    </div>
+</div>
+<br>
+<div class="row mb-3">
+    <div class="col-md-6">
+    
+        <label for="inputField1" class="form-label">Mode</label>
+        <select class="form-select" id="roleSelect" aria-label="Default select example" name="mode" required>
+            <option value="M-Pesa">M-Pesa</option>
+            <option value="10002332432">KCB</option>
+            <option value="13222839272">Equity</option>
+        </select>
+    </div>
+   
+    <div class="col-md-6">
+    
+        <label for="inputField1" class="form-label">Date</label>
+        <input type="date" class="form-control" id="inputField1" name="date"  required>
+    </div>
+</div>
+<br>
+<div class="row mb-3">
+  
+   
+    <div class="col-md-6">
+        <label for="inputField2" class="form-label">Phone</label>
+        <input type="text" class="form-control" id="inputField2" name="phone" placeholder="254742134431" >
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-md-6">
+    
+       
+   
+    <button class="btn btn-outline-secondary">Save</button>
+    </div>
+</div>
+</form>
+{% endif %}
+{% endif %}
+
+
+</div>
+
+{% endblock %}

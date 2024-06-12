@@ -1,0 +1,225 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+<div class="container">
+
+    <a class="btn btn-primary" href="{% url 'invoices' %}">Invoices</a>
+    <form method="post">
+        {% csrf_token %}
+
+        <button class="btn btn-danger" style="position: fixed; right: 14.5%;top: 70px;" name="delete">Delete</button>
+
+    </form>
+
+    <br><br>
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                {{ invoice.received_from }} {{ invoice.amount }}
+            </h2>
+            <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>{{ invoice.title }} received on {{ invoice.date }}</strong>
+                        <br>
+                        {{ invoice.description }}
+                        
+                        <br>
+                        Balance is {{ invoice.balance }}
+                        
+                        <br><br>
+                        <a class="btn btn-warning" >Amount {{ invoice.amount }}</a>
+                        <a class="btn btn-danger">Balance {{ invoice.balance }}</a>
+                    </div>
+            </div>
+        </div>
+    
+    </div>
+    <br><br>
+
+    {% if invoice.balance != 0 %}
+
+
+
+
+{% if verified %}
+<div class="text-center">
+    <h5>Pay Invoice</h5>
+
+
+    <form method="post" style="margin: 0 auto;">
+        {% csrf_token %}
+        
+
+        <br>
+        <select class="form-select" aria-label="Default select example" id="paymentMethod" onchange="togglePaymentMethod()">
+            <option selected disabled hidden>Select Payment Method</option>
+            <option value="mpesa">M-Pesa</option>
+            <option value="bank">Bank</option>
+        </select>
+        <br><br>
+        
+        
+            <div id="mpesaFields" style="display: none;">
+                <div class="input-group mb-3"  >
+                    <input type="text" class="form-control" placeholder="QWH6796IKL" name="transaction_id"  required>
+                    <span class="btn btn-primary">Transaction ID</span>
+                </div>
+            
+                {% if not verified %}
+                  <button class="btn btn-primary" name="mpesa">Verify</button>
+                
+                {% endif %}
+                
+            </div>
+            <br><br>
+    
+            
+    
+        </form>
+    {% if phone %}
+    <form method="post">
+        {% csrf_token %}
+    <div class="input-group mb-3"  >
+        <input type="text" class="form-control" value="{{ transactionId }}"  name='transactionId' required readonly>
+        <!-- <input type="number" class="form-control" placeholder="5000" aria-label="amount" required> -->
+        <span class="btn btn-primary">Phone</span>
+    </div>
+    <div class="input-group mb-3"  >
+        <input type="text" class="form-control" value="{{ phone }}"  name="phone" required readonly>
+        <!-- <input type="number" class="form-control" placeholder="5000" aria-label="amount" required> -->
+        <span class="btn btn-primary">Phone</span>
+    </div>
+    
+    <div class="input-group mb-3"  >
+        <input type="text" class="form-control" value="{{ billreference }}"  name="billreference" required readonly>
+        <!-- <input type="number" class="form-control" placeholder="5000" aria-label="amount" required> -->
+        <span class="btn btn-primary">Adm No</span>
+    </div>
+    <div class="input-group mb-3"  >
+        <input type="text" class="form-control" value="{{ trxDate }}"  name="trxDate" required readonly>
+        <!-- <input type="number" class="form-control" placeholder="5000" aria-label="amount" required> -->
+        <span class="btn btn-primary">Date</span>
+    </div>
+    <div class="input-group mb-3"  >
+        <input type="text" class="form-control" value="{{ amount }}"  name="amount" required readonly>
+        <!-- <input type="number" class="form-control" placeholder="5000" aria-label="amount" required> -->
+        <span class="btn btn-primary">Amount</span>
+    </div>
+    
+    
+                  <button class="btn btn-danger" name="m-pay">Submit</button>
+    
+    {% endif %}
+ 
+        
+        <div class="input-group mb-3" id="bankFields" style="display:none;">
+            <!-- Add bank-specific input fields here -->
+            Bank-specific Input: <input type="text" id="bankInput" required>
+        </div>
+    
+    
+        
+        <script>
+            function togglePaymentMethod() {
+                var paymentMethod = document.getElementById("paymentMethod").value;
+                var mpesaFields = document.getElementById("mpesaFields");
+                var bankFields = document.getElementById("bankFields");
+        
+                if (paymentMethod === "mpesa") {
+                    mpesaFields.style.display = "inline";
+                    bankFields.style.display = "none";
+                } else if (paymentMethod === "bank") {
+                    mpesaFields.style.display = "none";
+                    bankFields.style.display = "block";
+                }
+            }
+        </script>
+
+
+
+
+    </form>
+</div>
+
+
+
+
+{% endif %}
+<form method="post" >
+    {% csrf_token %}
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="inputField2" class="form-label">Mode</label>
+            <select class="form-select" id="roleSelect" aria-label="Default select example" name="mode" required>
+                <option></option>
+                <option value="Cash">Cash</option>
+                <option value="Bank">Bank</option>
+                <option value="M-Pesa">M-Pesa</option>
+                
+            </select>
+        </div>
+        <div class="col-md-6">
+                <label for="inputField2" class="form-label">Phone</label>
+                <input type="text" class="form-control" id="inputField2" name="phone" placeholder="254742134431" required>
+        </div>
+    </div>
+    <br>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="inputField2" class="form-label">Transaction ID</label>
+            <input type="text" class="form-control" id="inputField2" name="tid" placeholder="QWERTY67HJ9" required>
+        </div>
+        
+            <div class="col-md-6">
+                <label for="inputField2" class="form-label">Amount</label>
+                <input type="number" class="form-control" id="inputField2" name="amount" placeholder="1000" required>
+            </div>
+       
+    </div>
+    <br>
+    <button class="btn btn-primary" name="raw">Save</button>
+</form>
+{% endif %}
+
+
+<br><br>
+
+
+<table class="table">
+    <thead>
+      <tr>
+        <th><h6><input type="checkbox"></h6></th>
+        <th><h6>Id</h6></th>
+         <th><h6>Date</h6></th>
+         <th><h6>Account</h6></th>
+         <th><h6>Mode</h6></th>
+        <th><h6>Amount</h6></th>
+    
+        <th><h6>Balance</h6></th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      {% for invoice in payments %}
+        <tr>
+          
+          <td><input type="checkbox"></td>
+          <td><a ><h6>{{ forloop.counter }}</h6></a></td>
+          <td>{{ invoice.date }}</td>
+          <td>{{ invoice.user_account }}</td>
+          <td>{{ invoice.mode }}</td>
+          <td>{{ invoice.amount }}</td>
+          <td>{{ invoice.balance }}</td>
+      
+          
+        </tr>
+      {% endfor %}
+    </tbody>
+ </table>
+
+</div>
+
+{% endblock %}

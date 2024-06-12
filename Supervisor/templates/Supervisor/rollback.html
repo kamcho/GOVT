@@ -1,0 +1,56 @@
+{% extends 'Teacher/teachers_base.html' %}
+{% load custom_filters %}
+{% load supervisor_filters %}
+
+{% block content %}
+
+
+
+<br><br><br><br>
+
+<div class="container">
+    <h6>Rollback fee increments for {% get_term %}</h6>
+
+</div>
+<div class="container" style="width: 95%;margin: 30px auto;column-gap: 30px ;display: grid;grid-template-columns: 45% 45%;">
+    <div class="data-card">
+        <div style="color: coral;">
+            <h6>Current Balances</h6>
+            <p>All Students {{ all.count }} <strong>|</strong> Available active accounts {{ students }}</p>
+            <p>Total Balances {{ balances }}</p>
+        </div>
+        
+        <hr>
+        <div style="color: cornflowerblue;">
+            <h6>After Migrations Expectations</h6>
+            {% with balances|get_migrations as current %}
+              <h6>Increment {{ current }}</h6>
+              <h6>New Balance {{ current|add:balances }}</h6>
+            {% endwith %}
+            
+        </div>
+        
+
+    </div>
+    <div class="">
+        <h6>Roll-back Fee Changes</h6>
+        <p>By clicking the button beleow you are going to :
+        <p>1) Undo fee increments made by your previous actions from all active students.</p>
+        <!-- <p>2) Un-Archive classes that have recently been archived or completed the junior secondary level</p> -->
+        </p>
+        <form method="post">
+            {% csrf_token %}
+    
+            <button class="btn btn-danger" name="rollback">Roll-back</button>
+        </form>
+    </div>
+
+    
+
+
+
+</div>
+
+
+
+{% endblock %}

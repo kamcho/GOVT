@@ -1,0 +1,99 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+
+<div class="container">
+
+ 
+
+
+    <br><br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3" id="list">
+            <select class="form-select" name="user">
+                <option></option>
+                {% for tch in users %}
+                   <option value="{{ tch.id }}">{{ tch.personalprofile.get_names }}</option>
+                {% endfor %}
+            </select>
+            <select class="form-select" name="subject">
+                <option></option>
+                {% for subject in subjects %}
+                   <option value="{{ subject.id }}">{{ subject }}</option>
+                {% endfor %}
+            </select>
+            <select class="form-select" name="grade">
+                <option></option>
+                <option value="4">Grade 4</option>
+                <option value="5">Grade 5</option>
+                <option value="6">Grade 6</option>
+                <option value="7">Grade 7</option>
+            </select>
+            <select class="form-select" name="status">
+                <option></option>
+                <option value="active">Active</option>
+                <option value="expired">Expired</option>
+              
+            </select>
+            <span class="input-group-text">From</span>
+            <input type="date" class="form-control" name="from">
+            <span class="input-group-text">To</span>
+            <input type="date" class="form-control" name="to">
+
+
+   
+          <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search/Reset</button>
+      </div>
+    </form>
+    <table class="table">
+        <thead>
+          <tr>
+            <th><h6>ID</h6></th>
+            <th><h6>User</h6></th>
+            <th><h6>Class</h6></th>
+            <th><h6>Subject</h6></th>
+            <th><h6>Date</h6></th>
+            <th><h6>Status</h6></th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            {% for user in assignments %}
+            
+            <tr>
+                <td>{{ forloop.counter }}</td>
+              <td><a href="{% url 'teachers-profile' user.teacher %}"><h6>{{ user.teacher.personalprofile.get_names }}</h6></a></td>
+              <td>{{ user.class_id }}</td>
+              <td><a href="{% url 'class-test-analytics' user.uuid %}">{{ user.subject }} | {{ user.subject.grade }}</a> </td>
+              <td style="color: cornflowerblue;">{{ user.date|date:'d-M-Y' }} | <strong><small style="color: coral;">{{ user.expiry|date:'d-M-Y' }}</small></strong></td>
+              {% if now < user.date %}
+                <td style="color: cornflowerblue;">Active</td>
+              {% else %}
+                <td style="color: crimson;">Expired</td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+         
+        </tbody>
+     </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

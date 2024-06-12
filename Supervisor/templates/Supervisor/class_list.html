@@ -1,0 +1,67 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+
+<div class="container">
+ 
+
+    <h6 style="text-align: center;">{{ class|title }}</h6>
+
+    <br><br>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th><h6>ID</h6></th>
+            <th><h6>User</h6></th>
+            <th><h6>ADM No</h6></th>
+            <th><h6>Gender</h6></th>
+            <th><h6>Status</h6></th>
+            <!-- <th><h6>Add Fee</h6></th> -->
+          </tr>
+        </thead>
+        <tbody>
+          
+            {% for user in students %}
+            
+            <tr>
+                <td>{{ forloop.counter }}</td>
+              {% if user.user.is_active %}
+
+              <td><a href="{% url 'students-profile' user %}"><h6>{{ user.user.personalprofile.f_name }} {{ user.user.personalprofile.l_name }} {{ user.user.personalprofile.surname }}</h6></a></td>
+              <td>{{ user.user.adm_no }}</td>
+              <td>{{ user.user.personalprofile.gender }} </td>
+              
+                <td style="color: cornflowerblue;">Active</td>
+              {% else %}
+              <td><a href="{% url 'students-profile' user %}" style="color: crimson;"><h6>{{ user.personalprofile.f_name }} {{ user.personalprofile.l_name }} {{ user.personalprofile.surname }}</h6></a></td>
+              <td style="color: crimson;">{{ user.user.adm_no }}</td>
+              <td style="color: crimson;">{{ user.current_class }} </td>
+                <td style="color: crimson;">Disabled</td>
+              {% endif %}
+              <!-- <td><a href="{% url 'add-fee-payment' user %}"><i class="bi bi-cash"></i></a></td> -->
+            </tr>
+            {% endfor %}
+         
+        </tbody>
+     </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

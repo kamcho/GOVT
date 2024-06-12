@@ -1,0 +1,79 @@
+{% extends 'Supervisor/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+
+<div class="container">
+  {% if user.role == 'Supervisor' %}
+    <a href="{% url 'create-user' %}"><button class="btn btn-primary">Add Guardian</button></a>
+  {% endif %}
+ 
+
+
+    <br><br>
+    <form method="post">
+      {% csrf_token %}
+      <div class="input-group mb-3">
+          <input type="text" class="form-control" name="search" placeholder="search by name, email or admission" aria-label="Recipient's username" aria-describedby="button-addon2">
+          
+          <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search/Reset</button>
+      </div>
+    </form>
+    
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th><h6>User</h6></th>
+            <th><h6>E-Mail</h6></th>
+            <th><h6>Phone</h6></th>
+            <th><h6>Status</h6></th>
+            <!-- <th><h6>Add Fee</h6></th> -->
+          </tr>
+        </thead>
+        <tbody>
+          
+            {% for user in users %}
+            
+            <tr>
+              {% if user.is_active %}
+                {% if user.personalprofile.f_name %}
+                    <td><a href="{% url 'guardian-view' user %}"><h6>{{ user.personalprofile.f_name }} {{ user.personalprofile.l_name }} {{ user.personalprofile.surname }}</h6></a></td>
+                {% else %}
+                    <td><a href="{% url 'guardian-view' user %}"><h6>{{ user }}</h6></a></td>
+                {% endif %}
+              <td>{{ user }}</td>
+              <td>{{ user.personalprofile.phone }} </td>
+              
+                <td style="color: cornflowerblue;">Active</td>
+              {% else %}
+              <td><a href="{% url 'guardian-view' user %}" style="color: crimson;"><h6>{{ user.personalprofile.f_name }} {{ user.personalprofile.l_name }} {{ user.personalprofile.surname }}</h6></a></td>
+              <td style="color: crimson;">{{ user }}</td>
+              <td style="color: crimson;">{{ user.personalprofile.phone }} </td>
+                <td style="color: crimson;">Disabled</td>
+              {% endif %}
+              <!-- <td><a href="{% url 'add-fee-payment' user %}"><i class="bi bi-cash"></i></a></td> -->
+            </tr>
+            {% endfor %}
+         
+        </tbody>
+     </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
