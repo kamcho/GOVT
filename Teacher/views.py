@@ -1,6 +1,5 @@
 import datetime
 import logging
-from typing import Any
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin

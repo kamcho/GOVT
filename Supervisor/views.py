@@ -1,8 +1,6 @@
 import datetime
-from distutils.log import Log
-from email.mime import base
-import json
-import re
+
+
 from django.contrib.auth.hashers import make_password
 
 from itertools import groupby
@@ -17,12 +15,10 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from django.utils import timezone
 from django.views.generic import TemplateView
 
 from Analytics.views import check_role
 # from Finance.models import MpesaPayouts
-import Discipline
 from Finance.models import TermFeeStructure
 from Guardian.models import MyKids
 from Supervisor.models import ExtraCurricular, FeeMigrations, FileModel, Updates

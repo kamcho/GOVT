@@ -1,12 +1,9 @@
-from email.policy import default
-from turtle import mode
-import uuid
+
 from django.db import models
 from Guardian.views import MyKidsView
 from SubjectList.models import Subject, Topic, Subtopic
 from Term.models import Terms
 from Users.models import MyUser
-from multiupload.fields import MultiFileField
 
 
 class FeeMigrations(models.Model):
