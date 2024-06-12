@@ -1239,3 +1239,31 @@ class AskAi(TemplateView):
     template_name = 'SubjectList/ask.html'
 
 
+def chatgpt_answer(request):
+    if request.method == 'POST' :
+        question = request.POST['prompt']
+        api_key = 'sk-proj-Rtd2wVW4w1eyCB7YTspeT3BlbkFJYhlQkVH5AIQ0Fz7L20FF' 
+        # quiz = Prompt.objects.create(user=request.user, quiz=question)
+
+        # Call ChatGPT API to get the answer
+        
+        client = OpenAI(api_key=api_key)
+        try:
+
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "user", "content": question},
+                    
+                ]
+            )
+
+            response = response.choices[0].message.content
+            # answer = Completion.objects.create(quiz=quiz, response=response)
+    
+            
+            return JsonResponse({'answer': response})
+        
+        except Exception as e:
+            # quiz.delete()
+            return JsonResponse({'answer': str(e)})
