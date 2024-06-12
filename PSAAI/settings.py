@@ -96,16 +96,6 @@ WSGI_APPLICATION = 'PSAAI.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'psaai',
-#        'USER': 'root',
-#        'PASSWORD': '141778215aA',
-#        'HOST': 'psaai.covjv7kf4u4o.eu-north-1.rds.amazonaws.com',
-#        'PORT': '5432',
-#    }
-# }
 
 
 DATABASES = {
@@ -114,16 +104,7 @@ DATABASES = {
         'NAME': BASE_DIR / "mydatabase.sqlite3",
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'psaai',         # The name of your PostgreSQL database
-#         'USER': 'postgres',     # The PostgreSQL superuser
-#         'PASSWORD': '141778215aA',  # The password you set during PostgreSQL installation
-#         'HOST': 'localhost',    # The database server (in this case, it's your local machine)
-#         'PORT': '5432',             # Leave empty to use the default PostgreSQL port (5432)
-#     }
-# }
+
 
 LOGGING = {
     'version': 1,
@@ -168,12 +149,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# PASSWORD_HASHERS = [
-#     'django.contrib.auth.hashers.Argon2PasswordHasher',
-#     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-#     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-#     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-# ]
+
 
 
 # Internationalization
@@ -234,19 +210,6 @@ SCHOOL_ID = '3d627dc5-da9f-4582-9a9c-31ce81448784'
 ASGI_APPLICATION = "PSAAI.asgi.application"
 
 
-AWS_ACCESS_KEY_ID = 'AKIAQVH4CFA7E4IE7BMV'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'excel-acad'
-# AWS_S3_SIGNATURE_NAME='s3v4'
-AWS_S3_REGION_NAME = "eu-north-1"
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_S3_ADDRESSING_STYLE = "virtual"
-
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_EXPIRY = 60 * 60 * 24 * 7
-AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
 # settings.py
 DATA_UPLOAD_MAX_MEMORY_SIZE = 105 * 1024 * 1024  # 25 MB (adjust as needed)
 
