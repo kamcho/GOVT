@@ -1,12 +1,12 @@
 import logging
 import uuid
-from ElasticEmail.model.email_content import EmailContent
-from ElasticEmail.model.body_part import BodyPart
-from ElasticEmail.model.body_content_type import BodyContentType
-import ElasticEmail
-from ElasticEmail.api import emails_api
-from ElasticEmail.model.email_message_data import EmailMessageData
-from ElasticEmail.model.email_recipient import EmailRecipient
+# from ElasticEmail.model.email_content import EmailContent
+# from ElasticEmail.model.body_part import BodyPart
+# from ElasticEmail.model.body_content_type import BodyContentType
+# import ElasticEmail
+# from ElasticEmail.api import emails_api
+# from ElasticEmail.model.email_message_data import EmailMessageData
+# from ElasticEmail.model.email_recipient import EmailRecipient
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
