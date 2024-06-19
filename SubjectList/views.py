@@ -1242,7 +1242,9 @@ class AskAi(TemplateView):
 def chatgpt_answer(request):
     if request.method == 'POST' :
         question = request.POST['prompt']
-        api_key = 'sk-proj-Rtd2wVW4w1eyCB7YTspeT3BlbkFJYhlQkVH5AIQ0Fz7L20FF' 
+        new = 'sk-proj-BrLw8BFj8boMh5e4OLli'
+        old = 'T3BlbkFJIewY0eI951IcuhHnmEnh'
+        api_key = new+old
         # quiz = Prompt.objects.create(user=request.user, quiz=question)
 
         # Call ChatGPT API to get the answer

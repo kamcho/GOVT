@@ -2,15 +2,38 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
+<div class="alert alert-info" style="position: absolute;top: 60px;height: 50px;width: 100%;">
+  <p class="text-center" style="padding-bottom: 20px;">You are looged out</p>
+</div>
 <div class="container">
 
   <br><br><br><br>
-  <h6>You are logged out of your account.</h6>
-  <br>
-  <a class="btn btn-primary" href="{% url 'login' %}">Sign In</a> <a class="btn btn-warning" href="{% url 'register' %}">Sign Up</a>
-  <br><br>
-  <small ><a href="{% url 'password-reset' %}" class="error">forgot password ? reset.</a></small>
+  <form class="form_container" >
+    
+    <div class="title_container">
+      <p class="title">Login to your Account</p>
+      <span class="subtitle">Get started with our app, just login and enjoy the experience.</span>
+    </div>
+    <br>
+    
+    <br>
+   
+    <br>
+    <a href="{% url 'login' %}" class="btn btn-primary" style="width: 100%;">
+      Login
+    </a>
+    
+    <br><br>
+  
+    <div class="separator">
+      <hr class="line">
+      <span>Or</span>
+      <hr class="line">
+    </div>
+    <a title="Sign In"  class="sign-in_ggl" href="{% url 'password-reset' %}" style="background-color: crimson;color: white;">Reset</a>
+   
+  </form>
+
 
 
 </div>
