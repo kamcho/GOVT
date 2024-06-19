@@ -14,6 +14,9 @@
     grid-template-columns:repeat(3, .7fr);
 
 }
+#analytics{
+    background-color: #d7e7e6;width: 100%;padding: 40px;border-radius: 20px;
+}
 .panel{
     display: grid;
     grid-template-columns: repeat(4, .4fr);
@@ -137,9 +140,10 @@
 }
 .expenses{
     display: grid;
-    grid-template-columns: 65% 35%;
+    grid-template-columns: 65% 32%;
     column-gap: 50px;
-    width: 96%;
+    width: 89%;
+    margin:  0 auto;
   }
   #expense{
     height: 450px;
@@ -515,6 +519,26 @@
     
     }
 
+
+    @media (max-width: 850px) {
+        .expenses{
+            display: inline;
+            width: 80%;
+        }
+        .expenses .data-card{
+            width: 90%;
+            height: fit-content;
+        }
+        
+        .expenses .four{
+            display: inline;
+        }
+        .service-card{
+            margin-top: 20px;
+        }
+
+
+    }
     @media (max-width: 700px) {
         .profile-card{
             display: inline-block !important;
@@ -551,6 +575,7 @@
         .class-subject-view{
             display: inline;
             margin: 10px auto;
+            background-color: white !important;
         }
         .analytic-card{
             margin: 20px auto;

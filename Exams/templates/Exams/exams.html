@@ -4,7 +4,6 @@
 
 {% block content %}
 
-
     {% if not subjects %}
     <br><br><br>
     <form>
@@ -24,7 +23,9 @@
     {% else %}
    
     <div class="subject-select-content-container">
-   
+        <div class="container">
+            <a class="btn btn-primary" href="{% url 'overall-analytics' user.email %}" style="position: absolute;top:90px;right: 7%;">Analytics</a>
+        </div>
 <!--        <div class="container">-->
 <!--            <br>-->
 <!--                <div>-->

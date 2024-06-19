@@ -35,10 +35,13 @@ class GuardianHome(LoginRequiredMixin, IsGuardian, TemplateView):
         try:
             # Get learners linked to logged in guardian
             my_kids = MyKids.objects.get(user = user)  # get linked kids account
-            if not my_kids:
-                messages.error(self.request, f'We could not find any students in your watch list.'
-                                             f' Add a user from your profile page.')
-            context['kids'] = my_kids
+            print(MyKids.kids, 'iamas')
+            if not my_kids.kids.all():
+                messages.error(self.request, f'We could not find any students linked to you.')
+            else:
+                context['kids'] = my_kids
+        except MyKids.DoesNotExist:
+            pass
         except Exception as e:
             # Handle any exceptions
             messages.error(self.request, 'An exception occurred were fixing it')
@@ -64,7 +67,7 @@ class GuardianHome(LoginRequiredMixin, IsGuardian, TemplateView):
 
     def post(self, *args, **kwargs):
         if self.request.method == 'POST':
-            return redirect('update-profile')
+            return redirect('manage-kids')
 
 
 

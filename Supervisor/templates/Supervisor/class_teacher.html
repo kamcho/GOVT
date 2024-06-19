@@ -13,7 +13,7 @@
         <div class="col-md-6">
             <select class="form-select" id="classInput" name="user" aria-label="Default select example" required>
                 {% for user in teachers %}
-                    <option value="{{ user.email }}">{{ user }}</option>
+                    <option value="{{ user.email }}">{{ user.personalprofile.get_names }}</option>
                 {% endfor %}
               
             </select>

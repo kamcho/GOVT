@@ -3,7 +3,7 @@ from django.db import models
 from Guardian.views import MyKidsView
 from SubjectList.models import Subject, Topic, Subtopic
 from Term.models import Terms
-from Users.models import MyUser
+from Users.models import MyUser, SchoolClass
 
 
 class FeeMigrations(models.Model):
@@ -16,6 +16,9 @@ class FeeMigrations(models.Model):
     def __str__(self):
         return str(self.date)
 
+class Promotion(models.Model):
+    year = models.PositiveIntegerField()
+    classes = models.ManyToManyField(SchoolClass)
 
 class Updates(models.Model):
     title = models.CharField(max_length=300)

@@ -12,6 +12,7 @@
 
         <button class="btn btn-danger" style="color: white;" name="delete">DELETE</button>
         {% else %}
+        <button class="btn btn-danger" style="color: white;" name="purge">Delete</button>
         <button class="btn btn-info" style="color: white;" name="restore">Restore</button>
         {% endif %}
         <br><br>
@@ -20,7 +21,7 @@
         <div class="col-md-6">
             
             <label for="inputField1" class="form-label">ADM NO</label>
-            <input type="text" class="form-control" value="{{ student.adm_no }}" id="inputField1" name="adm_no" placeholder="johndoe@gmail.com" required>
+            <input type="text" class="form-control" value="{{ student.adm_no }}" id="inputField1" disabled>
         </div>
         {% else %}
         {% endif %}

@@ -113,6 +113,11 @@ class TermInfo(TemplateView):
             term_id = self.kwargs['term']
             term = Terms.objects.get(id=term_id)
             context['term'] = term
+            current = CurrentTerm.objects.all().first()
+            context['current'] = current
+            print(current.term.id, term.id)
+            if str(current.term.id) == str(term.id):
+                context['is_current'] = True
             # test_exam()
         except Exception as e:
             messages.error(self.request, 'We could not find a result matching your query!')
@@ -130,9 +135,14 @@ class TermInfo(TemplateView):
             term = Terms.objects.get(id=term_id)
 
             if 'delete' in request.POST:
-                term.delete()
+                command = self.request.POST.get('command')
+                if command == 'delete':
+                    term.delete()
 
-                return redirect('terms')
+                    return redirect('terms')
+                else:
+                    messages.error(self.request, 'Invalid command!')
+                    return redirect(self.request.get_full_path())
             elif 'edit' in request.POST:
                 try:
                     term_id = self.kwargs['term']
@@ -146,7 +156,10 @@ class TermInfo(TemplateView):
                     messages.error(self.request, 'An error occured while trying to update term info!')
                 return redirect(request.get_full_path())
             else:
-                pass
+                term_id = self.kwargs['term']
+                term = Terms.objects.get(id=term_id)
+                curre = CurrentTerm.objects.all().delete()
+                cur_term = CurrentTerm.objects.create(term=term)
 
                 return redirect(request.get_full_path())
 

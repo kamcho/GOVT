@@ -1,10 +1,12 @@
-{% extends 'Guardian/baseg.html' %}
+{% extends template %}
 {% load crispy_forms_tags %}
 {% load custom_filters %}
 
 {% block content %}
-    <div class="subject-select-content-container">
-        <br><br><br><br>
+    
+        {% if tests %}
+        <div class="subject-select-content-container">
+            <br><br><br><br>
         <div class="subjects-select-view">
             {% for test in tests %}
             <div class="subject-select-card">
@@ -46,7 +48,7 @@
 
         </div>
 
-
+{% endif %}
     </div>
 
 

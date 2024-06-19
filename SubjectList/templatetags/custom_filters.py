@@ -21,6 +21,26 @@ from Users.models import MyUser, SchoolClass
 register = template.Library()
 logger = logging.getLogger('django')
 
+
+@register.filter
+def user_topic_percentile(user, topic):
+    weakness = StudentsAnswers.objects.filter(user=user, quiz__topic__id=topic, is_correct=False)
+    strength = StudentsAnswers.objects.filter(user=user, quiz__topic__id=topic, is_correct=True)
+    if strength or weakness:
+        total = weakness.count() + strength.count()
+        pas = (strength.count()/total)*100
+        return str(round(pas)) + ' %'
+    else:
+        return 'no tests taken'
+@register.filter
+def get_passed(user, topic):  
+    strength = StudentsAnswers.objects.filter(user=user, quiz__topic__id=topic, is_correct=True).count()
+    return strength
+@register.filter
+def get_failed(user, topic):  
+    strength = StudentsAnswers.objects.filter(user=user, quiz__topic__id=topic, is_correct=False).count()
+    return strength
+    
 @register.filter
 def divide(value, arg):
     try:

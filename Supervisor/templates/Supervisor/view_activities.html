@@ -1,4 +1,4 @@
-{% extends 'Supervisor/base.html' %}
+{% extends template %}
 {% load custom_filters %}
 {% block content %}
 
@@ -6,7 +6,7 @@
 
 <div class="container">
 
-    <br><br>
+
     <a href="{% url 'create-activity' %}" class="btn btn-primary">Add Activity</a>
     <br><br>
     

@@ -1,5 +1,4 @@
 import logging
-from typing import Any
 
 from django.conf import settings
 from django.contrib import messages
@@ -23,16 +22,21 @@ class IsStudent(UserPassesTestMixin):
     def test_func(self):
         user_email = self.kwargs['mail']  # Get the user's email from the URL
         try:
-            if self.request.user.role == 'Teacher':
+            if self.request.user.role in ['Teacher','Supervisor']:
                 return True
             elif self.request.user.role == 'Guardian':
                 
-                return MyUser.objects.get(email=user_email) and  MyUser.objects.get(email=user_email)
+                
+        
 
 
             # Attempt to get the student's profile using the provided email
           
-                student = MyKids.objects.get(kids=email)
+                student = MyKids.objects.get(kids__email=user_email)
+                return student
+            elif self.request.user.role == 'Student':
+
+                return self.request.user.email == user_email
             else:
                 return False
         except Exception:
@@ -50,6 +54,15 @@ class OverallAnalytics(LoginRequiredMixin, IsStudent, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(OverallAnalytics, self).get_context_data(**kwargs)
         user_email = self.kwargs['mail']  # Get the user's email from the URL
+        role = self.request.user.role
+        if role == 'Teacher':
+            context['template'] = 'Teacher/teachers_base.html'
+        elif role == 'Student':
+            context['template'] = 'Users/base.html'
+        elif role in ['Supervisor', 'Receptionist', 'Finance']:
+            context['template'] = 'Supervisor/base.html'
+        elif role == 'Guardian':
+            context['template'] = 'Guardian/baseg.html'
 
         try:
             # Try to retrieve the user by their email
@@ -97,27 +110,30 @@ class SubjectAnalytics(LoginRequiredMixin, IsStudent, TemplateView):
         context = super(SubjectAnalytics, self).get_context_data(**kwargs)
         user = self.kwargs['mail']
         subject = self.kwargs['subject']
+        role = self.request.user.role
+        if role == 'Teacher':
+            context['template'] = 'Teacher/teachers_base.html'
+        elif role == 'Student':
+            context['template'] = 'Users/base.html'
+        elif role in ['Supervisor', 'Receptionist', 'Finance']:
+            context['template'] = 'Supervisor/base.html'
+        elif role == 'Guardian':
+            context['template'] = 'Guardian/baseg.html'
 
         try:
             user = MyUser.objects.get(email=user)  # get student's instance
             subject = Subject.objects.get(id=subject)  # get subject
+            context['name'] = subject
             subject = subject.id  # get subject id
             student_tests = StudentTest.objects.filter(user=user, subject__id=subject)  # get topical tests
             class_test = ClassTestStudentTest.objects.filter(user=user, test__subject__id=subject)  # get class tests
             test_count = int(student_tests.count()) + int(class_test.count())
             context['total_tests'] = test_count
-
-            weakness = StudentsAnswers.objects.filter(user=user, quiz__subject__id=subject, is_correct=False). \
-                values('quiz__topic__name').annotate(
-                Count('quiz__topic__name')).order_by('quiz__topic__name')
-
-            strength = StudentsAnswers.objects.filter(user=user, quiz__subject__id=subject, is_correct=True). \
-                values('quiz__topic__name').annotate(
-                Count('quiz__topic__name')).order_by('quiz__topic__name')
+            context['topics'] = Topic.objects.filter(subject__id=subject)
+              
 
             context['subject'] = subject
-            context['strength'] = strength
-            context['weakness'] = weakness
+           
             context['child'] = user
             if test_count == 0:
                 messages.info(self.request, 'We could not find students data to analyse.')
@@ -169,6 +185,15 @@ class SubjectView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        role = self.request.user.role
+        if role == 'Teacher':
+            context['template'] = 'Teacher/teachers_base.html'
+        elif role == 'Student':
+            context['template'] = 'Users/base.html'
+        elif role in ['Supervisor', 'Receptionist', 'Finance']:
+            context['template'] = 'Supervisor/base.html'
+        elif role == 'Guardian':
+            context['template'] = 'Guardian/baseg.html'
         grade = self.kwargs['grade']
         subjects = Subject.objects.filter(grade=grade)
         context['subjects'] = subjects
@@ -215,6 +240,15 @@ class SubjectAnalysis(LoginRequiredMixin, TemplateView):
 
         if not most_failed and not most_passed:
             messages.warning(self.request, 'There is no enough information to Analyse!')
+        role = self.request.user.role
+        if role == 'Teacher':
+            context['template'] = 'Teacher/teachers_base.html'
+        elif role == 'Student':
+            context['template'] = 'Users/base.html'
+        elif role in ['Supervisor', 'Receptionist', 'Finance']:
+            context['template'] = 'Supervisor/base.html'
+        elif role == 'Guardian':
+            context['template'] = 'Guardian/baseg.html'
 
         return  context
     

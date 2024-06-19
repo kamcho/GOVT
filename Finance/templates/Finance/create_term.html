@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="bg-gradient">
-    <br><br>
+    <br><br><br>
     <div class="container">
         <a class="btn btn-primary" href="{% url 'terms' %}">Manage Terms</a>
     </div>
@@ -18,11 +18,11 @@
         {% csrf_token %}
         <div class="mb-3">
             <label  class="form-label">Year</label>
-            <input type="number" class="form-control" name="year"  placeholder="2024">
+            <input type="number" class="form-control" name="year"  placeholder="2024" required>
         </div>
 
         <div class="mb-3">
-            <select class="form-select" aria-label="Default select example" name="term">
+            <select class="form-select" aria-label="Default select example" name="term" required>
                 <option value="Term 1">Term 1</option>
                 <option value="Term 2">Term 2</option>
                 <option value="Term 3">Term 3</option>
@@ -32,10 +32,10 @@
 
         <div class="input-group mb-3">
             <span class="input-group-text">Starts At</span>
-                <input type="date" class="form-control" name="from" placeholder="From" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <input type="date" class="form-control" name="from" placeholder="From" aria-label="Recipient's username" aria-describedby="button-addon2" required>
                 <span class="input-group-text">Ends At</span>
-                <input type="date" class="form-control" name="to" placeholder="From" aria-label="Recipient's username" aria-describedby="button-addon2">
-                </select>  
+                <input type="date" class="form-control" name="to" placeholder="From" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+              
                 <button class="btn btn-warning" >Save</button>
            </div>
     </form>

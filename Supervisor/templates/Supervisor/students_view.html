@@ -36,13 +36,13 @@
             
             <tr>
               {% if user.is_active %}
-              <td><a href="{% url 'students-profile' user %}"><h6>{{ user.personalprofile.f_name }} {{ user.personalprofile.l_name }} {{ user.personalprofile.surname }}</h6></a></td>
+              <td><a href="{% url 'students-profile' user.adm_no %}"><h6>{{ user.personalprofile.get_names }}</h6></a></td>
               <td>{{ user.adm_no }}</td>
               <td>{{ user.academicprofile.current_class }} </td>
               
                 <td style="color: cornflowerblue;">Active</td>
               {% else %}
-              <td><a href="{% url 'students-profile' user %}" style="color: crimson;"><h6>{{ user.personalprofile.f_name }} {{ user.personalprofile.l_name }} {{ user.personalprofile.surname }}</h6></a></td>
+              <td><a href="{% url 'students-profile' user.adm_no %}" style="color: crimson;"><h6>{{ user.personalprofile.get_names }}</h6></a></td>
               <td style="color: crimson;">{{ user.adm_no }}</td>
               <td style="color: crimson;">{{ user.academicprofile.current_class }} </td>
                 <td style="color: crimson;">Disabled</td>

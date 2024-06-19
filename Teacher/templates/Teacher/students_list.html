@@ -4,7 +4,7 @@
 
 <br><br><br>
     <div class="bg-gradient" style="color: white;">
-        <br>
+        <br><br><br>
         {% if not students %}
         <p>There are currently no students in this class. If you did not edit the url contact @support</p>
         {% else %}
@@ -17,10 +17,10 @@
             <div class="user-card">
             <p><i class="bi bi-person-circle"> </i>
                 {% if student.user.personalprofile.f_name %}
-                <a href="{% url 'students-profile' student %}" style="color: white !important;"> {{ student.user.personalprofile.surname|title }} {{ student.user.personalprofile.l_name.0|title }}. {{ student.user.personalprofile.f_name|title }}</a></p>
+                <a href="{% url 'students-profile' student.user.adm_no %}" style="color: white !important;"> {{ student.user.personalprofile.surname|title }} {{ student.user.personalprofile.l_name.0|title }}. {{ student.user.personalprofile.f_name|title }}</a></p>
                 {% else %}
 
-                <a href="{% url 'students-profile' student %}" style="color: white !important;"> {{ student }}</a></p>
+                <a href="{% url 'students-profile' student.user.adm_no %}" style="color: white !important;"> {{ student }}</a></p>
 
                 {% endif %}
             </div>

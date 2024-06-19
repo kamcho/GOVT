@@ -5,6 +5,7 @@ from . import *
 
 urlpatterns = [
     path('', SupervisorHomeView.as_view(), name='supervisor-home'),
+    path('Link/<str:adm>', LinkStudent.as_view(), name='link'),
     path('Admin-Dashboard/', SupervisorDashboard.as_view(), name='admin-dashboard'),
     path('AddUser/', CreateUser.as_view(), name='create-user'),
     path('ArchivedUsers/', ArchivedUsers.as_view(), name='archived-users'),

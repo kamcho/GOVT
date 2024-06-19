@@ -4,12 +4,16 @@
 {% block content %}
 
 
-<br>
+
 <div class="bg-gradient">
+  <br><br><br>
 <div class="guardian-home-view">
 
-
+{% if kids %}
    <a href="{% url 'my-kids'  %}">
+{% else %}
+<a href="{% url 'manage-kids'  %}">
+{% endif %}
     <div class="guardian-home-card">
       <h6 class="card-title">View Kids Progress</h6>
       <p class="card-text">View your kids progress and results.</p>

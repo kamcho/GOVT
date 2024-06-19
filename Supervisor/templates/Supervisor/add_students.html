@@ -1,4 +1,4 @@
-{% extends 'Supervisor/base.html' %}
+{% extends 'Teacher/teachers_base.html' %}
 {% load custom_filters %}
 
 {% block content %}
@@ -61,7 +61,7 @@
                         {% if user.id|stringformat:"s" in request.session.students %}
 
                             <td><input type="checkbox" value="{{ user.id }}" name="user" checked></td>
-                            <td><a href="{% url 'students-profile' user.id %}"><h6>{{ user.personalprofile.f_name }} {{ user.personalprofile.l_name }} {{ user.personalprofile.surname }}</h6></a></td>
+                            <td><a><h6>{{ user.personalprofile.f_name }} {{ user.personalprofile.l_name }} {{ user.personalprofile.surname }}</h6></a></td>
                             <td>{{ user.academicprofile.current_class }}</td>
                             <td style="color: crimson;">
                                 <form method="post">

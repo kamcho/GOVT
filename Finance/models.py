@@ -66,7 +66,7 @@ class ProcessedSalaries(models.Model):
     mode = models.CharField(max_length=100)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField()
-    balance = models.PositiveIntegerField()
+    balance = models.IntegerField()
     user_account = models.CharField(max_length=100, null=True)
     
 
@@ -124,3 +124,11 @@ class Expenses(models.Model):
     def __str__(self) :
         return str(self.title) + ' ' + str(self.amount)
 
+class FeeDebit(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    amount = models.PositiveIntegerField()
+    balance = models.IntegerField()
+    date = models.DateField(auto_now=True)
+
+    def __str__(self) :
+        return str(self.user) 

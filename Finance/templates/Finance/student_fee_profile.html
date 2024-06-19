@@ -1,12 +1,12 @@
-{% extends 'Supervisor/base.html' %}
+{% extends template %}
 {% load custom_filters %}
 {% block content %}
 
 <br><br><br><br>
 <div class="container">
     {% if profile %}
-    Current Fee Balance
-    <a class="btn btn-warning" style="color: white;">{{ profile.balance }}</a>
+    <a class="btn btn-secondary">{{ profile.user.personalprofile.get_names }}</a>
+    <a class="btn btn-outline-secondary" style="color: rgb(0, 0, 0);">Balance {{ profile.balance }}</a>
     <br><br>
     <!-- <form  method="post">
         {% csrf_token %}
@@ -39,27 +39,44 @@
     <tbody>
       
       {% for payment in transactions %}
-        
-            <tr>
-                
-          
-                <td><input type="checkbox"></td>
-                <td><a ><h6>{{ forloop.counter }}</h6></a></td>
-                <td>{{ payment.date|date:"D d M Y" }}</td>
-                <td><a href="{% url 'manage-fee-payment' payment.id %}">{{ payment.transaction_id.receipt }}</a></td>
-                
-                <td>{{ payment.transaction_id.mode }}</td>
-                <td>{{ payment.transaction_id.amount }}</td>
-                <td>{{ payment.balance }}<br></td>
-                
-              </tr>
-        
-        
+      <tr>  
+      <td><input type="checkbox"></td>
+            <td><a ><h6>{{ forloop.counter }}</h6></a></td>
+        {% if payment.transaction_id %}
+    
+            <td>{{ payment.date|date:"D d M Y" }}</td>
+            <td><a href="{% url 'manage-fee-payment' payment.id %}">{{ payment.transaction_id.receipt }}</a></td>
+            <td>{{ payment.transaction_id.mode }}</td>
+            <td>{{ payment.transaction_id.amount }}</td>
+            <td>{{ payment.balance }}<br></td>
+          </tr>
+        {% else %}
+       
+            
+            <td style="color: coral;">{{ payment.date|date:"D d M Y" }}</td>
+            <td style="color: coral;">SYSTEM</td>
+            <td style="color: coral;">Fee-DEBIT</td>
+            <td style="color: coral;">{{ payment.amount }}</td>
+            <td style="color: coral;">{{ payment.balance }}<br></td>
+          </tr>
+        {% endif %}
       {% endfor %}
     </tbody>
  </table>
 {% else %}
 {% endif %}
+
+{% if user.role == 'Supervisor' %}
+<br><br><br>
+<h6>Add fee balance</h6>
+<form method="post" style="width: 60%;min-width: 300px;">
+  {% csrf_token %}
+  <input type="number" class="form-control" name="amount" placeholder="5000" required>
+  <br><br>
+  <button class="btn btn-outline-secondary">Save</button>
+</form>
+{% endif %}
+
 {% else %}
 {% endif %}
 </div>

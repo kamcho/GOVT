@@ -5,7 +5,7 @@
 
 {% block content %}
 <div  class="bg-gradient">
-
+    <br><br><br>
     {% if not kids %}
     <div class="container">
         <p>Your account is not linked to any learner. Add a learner to your watchlist.</p>
@@ -16,7 +16,7 @@
     {% else %}
 <div class="subjects-select-view  align-items-center justify-content-center" >
     {% for kid in kids.kids.all %}
-    <a href="{% url 'students-profile' kid %}">
+    <a href="{% url 'students-profile' kid.adm_no %}">
         <div class="subject-select-card">
 
             <div class="">

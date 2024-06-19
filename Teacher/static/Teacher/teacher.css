@@ -18,6 +18,13 @@
 
 
 }
+.dash-view{
+    display: grid;
+    /* width: 80%; */
+    min-width: 350px;
+    margin: 0 auto;
+    grid-template-columns: repeat(2, .6fr);
+}
 .purple{
     color:purple;
 }

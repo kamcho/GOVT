@@ -4,12 +4,19 @@
 <br><br><br><br>
 
 <div class="container">
+{% if not is_current %}
+  <form method="post">
 
+    {% csrf_token %}
+    <button class="btn btn-outline-secondary" name="set-term">Set As Current Term</button>
+  </form>
+{% else %}
+<button class="btn btn-primary" name="set-term">{{ current }} - {{ current.term.year }}</button>
 
-
+{% endif %}
     <form method="post">
 
-      <button class="btn btn-warning" name="set-term">Set As Current Term</button>
+      
       <br><br>
         {% csrf_token %}
             <div class="mb-3">
@@ -31,18 +38,26 @@
 
             <div class="mb-3">
               <label  class="form-label">Starts At {{ term.starts_at }}</label>
-              <input type="date" class="form-control" name="start" value="" placeholder="{{ term.starts_at }}">
+              <input type="date" class="form-control" name="start" value="" placeholder="{{ term.starts_at }}" required>
             </div>
 
             <div class="mb-3">
               <label  class="form-label">Ends At {{ term.ends_at }}</label>
-              <input type="date" class="form-control" name="end" placeholder="{{ term.ends_at }}">
+              <input type="date" class="form-control" name="end" placeholder="{{ term.ends_at }}" required>
             </div>
 
-            <button class="btn btn-info" name="edit">Save</button> <button class="btn btn-danger" name="delete">Delete</button>
+            <button class="btn btn-primary" name="edit">Save</button> 
+            
+            
     </form>
+    <form method="post">
 
-
+        {% csrf_token %}
+        <div class="input-group" style="position: absolute;top:90px;right: 7%;width: 300px !important;">
+          <input class="form-control" name="command" placeholder="enter 'delete' to delete">
+          <button class="btn btn-danger" name="delete" >Delete</button>
+        </div>
+        </form>
 
 </div>
 

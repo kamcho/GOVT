@@ -13,7 +13,7 @@
 <div  >
     <div class="container">
     {% if user.role == 'Supervisor' %}
-    <a  href="{% url 'manage-user' student %}" class="btn btn-primary" style="color: white;">Manage Student</a>
+    <a  href="{% url 'manage-user' student.adm_no %}" class="btn btn-primary" style="color: white;">Manage Student</a>
     {% endif %}
     <br>
     
@@ -70,12 +70,12 @@
 
     <a   href="{% url 'students-exam-profile' student %}">
         <div class="user-card" style="height: 200px !important;">
-            <h5>Exams</h5>
+            <h6>Exams</h6>
             <h6 >Excel Learning</h6>
             
             
             <br>
-            <p>To view students school graded exams, click here                
+            <p>View students school graded exams.               
             </p>
             
 
@@ -84,11 +84,11 @@
     {% if user.role != 'Student' %}
         <a href="{% url 'task-view-select' student %}">
         <div class="user-card" style="height: 200px !important;">
-            <h5>E-Learning</h5>
+            <h6>E-Learning</h6>
             <h6 >I AM Learning</h6>
             
             <br>
-            <p>To view a students online learning progress and exams click here
+            <p>View online learning progress and exams .
                 
             </p>
 
@@ -104,7 +104,7 @@
         <div class="user-card" style="height: 200px !important;">
             <h6>Extra Curricular</h6>
             <br>
-            <p>View students discipline, conduct and Extra Curricular activities</p>
+            <p>View discipline conduct and Extra Curricular activities</p>
             
         </div>
     </a>
@@ -112,7 +112,7 @@
 
     <a href="{% url 'student-fee-profile' student %}">
         <div class="user-card" style="height: 200px !important;">
-            Fee Management
+            <h6>Fee Management</h6>
             <p>View and manage fee payments.</p>
     
             
@@ -122,15 +122,17 @@
     {% endif %}
     
     {% if request.user.role != 'Teacher' %}
+    <a href="{% url 'link' student.adm_no %}">
     <div>
         <div class="user-card" style="height: 200px !important;">
-            Guardians
+            <h6>Guardians</h6>
     
             {% for parent in guardians %}
-            <a href="{% url 'guardian-view' parent %}" style="color: white;" ><p>{{ parent }}</p></a>
+            <p style="color: white;" >{{ parent.user.personalprofile.get_names }}</p>
         {% endfor %}
         </div>
     </div>
+</a>
     {% endif %}
     
 

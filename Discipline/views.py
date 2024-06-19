@@ -10,7 +10,10 @@ from Users.models import MyUser
 
 def deductPoints(user, score):
     profile = StudentDisciplineScore.objects.get(user=user)
-    profile.points = profile.points - score
+    if int(score) >= int(profile.points):
+        profile.points = 0
+    else:
+        profile.points = profile.points - score
     profile.save()
 
     return None
@@ -35,6 +38,9 @@ class CreateClassIncident(LoginRequiredMixin, UserPassesTestMixin, TemplateView)
             score = request.POST.get('points')
             try:
                 incident = ClassIncident.objects.create(name=name, incident_degree=degree, description=description, points=score )
+                messages.info(self.request, 'Success')
+
+                return redirect('manage-incident', incident.id)
             except Exception as e:
                 messages.error(self.request, 'An error occured. Please try again!')
 
@@ -88,12 +94,17 @@ class ManageIncident(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
                     incident.incident_degree = degree
                     incident.points = score
                     incident.save()
-                    messages.success(request, 'SUCESS !')
+                    messages.success(request, 'SUCCESS !')
                     return redirect(request.get_full_path())
                 else:
-                    incident = incident.delete()
-                    messages.success(request, 'SUCESS !')
-                    return redirect('incidents')
+                    command = self.request.POST.get('command')
+                    if command == 'delete':
+                        incident = incident.delete()
+                        messages.success(request, 'SUCCESS !')
+                        return redirect('incidents')
+                    else:
+                        messages.error(self.request, 'Invalid Command!')
+                        return redirect(self.request.get_full_path())
             except Exception as e:
                 messages.error(self.request, 'An error occured. Please try again !')
                 return redirect(self.request.get_full_path())
@@ -112,6 +123,7 @@ class BookedIncidents(LoginRequiredMixin,  TemplateView):
         else:
             incidents = IncidentBooking.objects.all().order_by('date')
             context['template'] = 'Supervisor/base.html'
+            context['suspended'] = StudentDisciplineScore.objects.filter(points__lte=0, user__is_active=True)
         context['incidents'] = incidents
         return context
     
@@ -122,6 +134,7 @@ class ManageBookedIncident(LoginRequiredMixin, UserPassesTestMixin, TemplateView
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         incident_id = self.kwargs['id']
+        role = self.request.user.role
         if role == 'Teacher':
             context['template'] = 'Teacher/teachers_base.html'
         else:
@@ -161,6 +174,15 @@ class ManageBookedIncident(LoginRequiredMixin, UserPassesTestMixin, TemplateView
 class StudentsDisciplineProfile(LoginRequiredMixin, TemplateView):
     template_name = 'Discipline/students_discipline.html'
 
+    def post(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            profile = self.get_context_data().get('profile')
+            profile.points = 100
+            profile.save()
+
+            return redirect(self.request.get_full_path())
+        
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         email = self.kwargs['email']
@@ -184,7 +206,7 @@ class StudentsDisciplineProfile(LoginRequiredMixin, TemplateView):
                 context['profile'] = profile
             except MyUser.DoesNotExist:
                 messages.error(self.request, 'We could not find any users matching your query !')
-
+        role = self.request.user.role
         if role == 'Teacher':
             context['template'] = 'Teacher/teachers_base.html'
         elif role == 'Student':

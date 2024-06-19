@@ -92,9 +92,9 @@
         <tr>
           {% if test.personalprofile.f_name %}
           
-              <td><a href="{% url 'students-profile' test %}">{{ test.personalprofile.f_name }} {{ test.personalprofile.l_name }} {{ test.personalprofile.surname }}</a></td>
+              <td><a href="{% url 'students-profile' test.adm_no %}">{{ test.personalprofile.f_name }} {{ test.personalprofile.l_name }} {{ test.personalprofile.surname }}</a></td>
           {% else %}
-              <td><a href="{% url 'students-profile' test %}">{{ test }}</a></td>
+              <td><a href="{% url 'students-profile' test.adm_no %}">{{ test }}</a></td>
           {% endif %}
           <td>
               0

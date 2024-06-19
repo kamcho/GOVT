@@ -11,7 +11,7 @@
         {% if user.role == 'Supervisor' %}
         <div class="profile">
             
-              <a href="{% url 'manage-user' guardian %}"><button class="btn btn-info">Manage Guardian</button></a>
+              <a href="{% url 'manage-user' guardian.adm_no %}"><button class="btn btn-info">Manage Guardian</button></a>
            
         </div>
         {% endif %}

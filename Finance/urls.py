@@ -18,6 +18,7 @@ urlpatterns = [
     path('SalaryDisbursements/<str:email>', DisburseSalaries.as_view(),name='disburse'),
     path('SalaryPayments/', SalaryPayments.as_view(), name='salary-payments'),
     path('SalaryReceipt/<str:id>', SalaryReceipt.as_view(), name='salary-receipt'),
+    path('SalaryProfile/<str:email>', SalaryProfile.as_view(), name='salary-profile'),
     
     path('Transactions/', TransactionsHome.as_view(), name='transactions'),
     path('InitiatedPayments/', InitiatedTransactions.as_view(), name='initiated-payments'),

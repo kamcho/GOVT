@@ -33,7 +33,11 @@
         {% endfor %}
 
         <!-- <button class="btn btn-info" name="delete">Update</button> -->
+        {% if user.role == 'Supervisor' %}
          <button class="btn btn-danger" name="delete">Delete</button>
+         {% else %}
+         <button class="btn btn-danger" name="delete" disabled>Delete</button>
+         {% endif %}
 
 
 

@@ -225,7 +225,15 @@ class PersonalProfile(models.Model):
     def __str__(self):
         return self.user.email
     def get_names(self):
-        return self.f_name + ' ' + self.l_name[0]+ '.' + ' '+self.surname
+        first = self.f_name
+        last = self.l_name
+        surname = self.surname
+        if first or last or surname:
+            if last:
+                last = last[0]
+            return first + ' ' + last+ '.' + ' '+surname
+        else:
+            return self.user
     
 
 

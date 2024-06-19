@@ -11,10 +11,11 @@
             <p>1) Promote all active classes in the school system</p>
             <p>2) Archive classes that have completed the junior secondary level</p>
         </p>
-
+        <br>
         <form method="post">
             {% csrf_token %}
-
+            <input name="pwd" type="password" class="form-control" placeholder="enter password" required>
+            <br>
             <button class="btn btn-primary" name="promote">Promote</button>
         </form>
 
@@ -26,9 +27,11 @@
             <p>1) Demote all active classes in the school system</p>
             <p>2) Un-Archive classes that have recently been archived or completed the junior secondary level</p>
         </p>
+        <br>
         <form method="post">
             {% csrf_token %}
-
+            <input name="pwd" type="password" placeholder="enter password" class="form-control" required>
+            <br>
             <button class="btn btn-danger" name="demote">De-mote</button>
         </form>
     </div>

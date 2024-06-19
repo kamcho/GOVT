@@ -11,7 +11,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import TemplateView
 from datetime import datetime, timedelta
 from django.contrib import messages
-from Finance.models import  Expenses, InvoicePayments, Invoices, ProcessedSalaries, RawFeePayment, StudentFeePayment, TermFeeStructure
+from Finance.models import  Expenses, FeeDebit, InvoicePayments, Invoices, ProcessedSalaries, RawFeePayment, StudentFeePayment, TermFeeStructure
 from Finance.tests import pullTransactions
 from Subscription.views import initiate_b2c_payment
 from Term.models import Terms
@@ -173,6 +173,55 @@ class SalaryProfiles(LoginRequiredMixin, TemplateView):
 
             return redirect('confirm-payment')
         
+class SalaryProfile(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+    template_name = 'Finance/salary_profile.html'
+
+    def test_func(self):
+        if self.request.user.role == 'Supervisor':
+            return True
+        elif self.request.user.role == 'Teacher':
+            if self.request.user.email == self.kwargs['email']:
+                return True
+            else:
+                return False
+        else:
+            return False
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        email = self.kwargs['email']
+        if self.request.user.role == 'Teacher':
+            context['template'] = 'Teacher/teachers_base.html'
+        else:
+            context['template'] = 'Supervisor/base.html'
+        try:
+            context['profile'] = TeacherPaymentProfile.objects.get(user__email=email)
+            context['salaries'] = ProcessedSalaries.objects.filter(user__email=email).order_by('-id')
+        except:
+            messages.error(self.request, 'We could not fin a user matching your query!')
+
+        return context
+    
+    def post(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            date = self.request.POST.get('date')
+            to = self.request.POST.get('to')
+            salaries = self.get_context_data().get('salaries')
+            search = {}
+            if date:
+                search['date__gte'] = date
+            if to:
+                search['date__lte'] = to
+            salarie = salaries.filter(**search)
+            if not salarie:
+                messages.error(self.request, 'We could not find salaries matching your query!')
+
+            context = {
+                'template': self.get_context_data().get('template'),
+                'profile':self.get_context_data().get('profile'),
+                'salaries':salarie,
+                'totals':salarie.aggregate(totals=Sum('amount'))['totals'] or 0
+            }
+            return render(self.request, self.template_name, context)
 
 class DisburseSalaries(TemplateView):
     template_name = 'Finance/disburse.html'
@@ -194,6 +243,7 @@ class DisburseSalaries(TemplateView):
             if mode == 'CASH':
                 amount = self.request.POST.get('amount')
                 balance = int(user.balance) - int(amount)
+                print(balance)
                 salary = ProcessedSalaries.objects.create(mode=mode, user=user.user, amount=amount, balance=balance)
                 user.balance = balance
                 user.save()
@@ -216,6 +266,23 @@ class SalaryPayments(LoginRequiredMixin, TemplateView):
 
 
         return context
+    def post(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            date = self.request.POST.get('date')
+            to = self.request.POST.get('to')
+            salaries = self.get_context_data().get('salaries')
+            search = {}
+            if date:
+                search['date__gte'] = date
+            if to:
+                search['date__lte'] = to
+            salarie = salaries.filter(**search)
+            context = {
+                'salaries':salarie,
+                'totals':salarie.aggregate(tot=Sum('amount'))['tot'] or 0
+            }
+
+            return render(self.request, self.template_name, context)
 
 class SalaryReceipt(LoginRequiredMixin, TemplateView):
     template_name = 'Finance/salary_receipt.html'
@@ -1396,10 +1463,33 @@ class StudentsFeeProfile(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
     def test_func(self):
         return self.request.user.role != 'Teacher'
+    
+    def post(self, *args, **kwargs):
+        if self.request.method== 'POST':
+            amount = self.request.POST.get('amount')
+            profile = self.get_context_data().get('profile')
+            balance = profile.balance + int(amount)
+            profile.balance = balance
+            
+            debit = FeeDebit.objects.create(user=profile.user, amount=amount, balance=balance)
+            profile.save()
+            messages.info(self.request, 'Fee update was succesfull!')
+
+            return redirect(self.request.get_full_path())
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         email = self.kwargs['email']
+        role = self.request.user.role
+        if role == 'Teacher':
+            context['template'] = 'Teacher/teachers_base.html'
+        elif role == 'Student':
+            context['template'] = 'Users/base.html'
+        elif role in ['Supervisor', 'Receptionist', 'Finance']:
+            context['template'] = 'Supervisor/base.html'
+        elif role == 'Guardian':
+            context['template'] = 'Guardian/baseg.html'
         try:
             profile = StudentsFeeAccount.objects.get(user__email=email)
             context['profile'] = profile
@@ -1430,10 +1520,10 @@ class StudentsFeeProfile(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
                 }
             )
-        transactions = StudentFeePayment.objects.filter(user__email=email)
-        if not transactions:
-            messages.info(self.request, 'This student has no transactions available')
-        context['transactions'] = transactions
+        transactions = StudentFeePayment.objects.filter(user__email=email).order_by('-id')
+        debits = FeeDebit.objects.filter(user__email=email).order_by('-id')
+        
+        context['transactions'] = list(transactions) + list(debits)
         
 
         return context
@@ -1781,9 +1871,11 @@ class ManageExpense(TemplateView):
             messages.error(self.request, 'We could not find an expense matching your query!')
         return context
     
-class ExpensesView(TemplateView):
+class ExpensesView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     template_name = 'Finance/expenses.html'
 
+    def test_func(self):
+        return self.request.user.role in ['Supervisor', 'Finance']
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         expenses = Expenses.objects.all()

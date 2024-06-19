@@ -3,14 +3,18 @@
 {% block content %}
 
 <br><br><br><br>
-<div class="container">
-    <a href="{% url 'manage-user' email %}" class="btn btn-info" style="color: white;">Manage Teacher</a>
-    <h6>{{ email }}</h6>
+<div class="subject-select-content-container">
+    <div style="padding: 40px 0px 0px 75px;" class="btn">
+        <a href="{% url 'manage-user' teacher.adm_no %}" class="btn btn-primary" style="color: white;">Manage Teacher<br><h6 style="color: cornflowerbl;">{{ email }}</h6></a>
+        
+    </div>
+    
 
-    <div class="subjects-select-view">
+    <div class="subjects-select-view" style="border-radius: 10px;">
         <a href="{% url 'teachers-info' email %}">
-            <div class="subject-select-card">
+            <div class="subject-select-card" style="height: 230px;">
                 Staff Personal Profile
+                <hr>
                 <br>
                 {{ teacher.personalprofile.f_name }} {{ teacher.personalprofile.l_name.0 }} {{ teacher.personalprofile.surname }}
                 <br>
@@ -22,9 +26,10 @@
             </div>
         </a>
         
-        <a href="{% url 'teachers-info' email %}">
-            <div class="subject-select-card">
-                Teachers Classes $ T.T
+        <a href="{% url 'teachers-info' email %}" >
+            <div class="subject-select-card" style="height: 230px;">
+                Teachers Academic Profile
+                <hr>
                 <br>
                 <div>
                     {% is_class_teacher teacher %}
@@ -37,11 +42,17 @@
             </div>
         </a>
 
-        <!-- <a href="">
-            <div class="subject-select-card">
+        <a href="{% url 'salary-profile' email %}">
+            <div class="subject-select-card" style="height: 230px;">
                 Teachers Finance
+                <hr>
+                <br>
+
+                <small>Staff Salry Payments</h6>
+                <br>
+                <small>Staff Salary Balances</h6>
             </div>
-        </a> -->
+        </a>
 
         
 

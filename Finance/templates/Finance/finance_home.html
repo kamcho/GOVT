@@ -2,10 +2,10 @@
 {% load supervisor_filters %}
 {% block content %}
 
-
-<div style="display: grid;grid-template-columns: 65% 35%;column-gap: 30px;width: 90%;margin: 0 auto;margin-top: 75px;">
+<br><br><br>
+<div class="expenses">
             
-    <div class="data-card" id="expense"  style="color: white !important;">
+    <div class="data-card"   style="color: white !important;">
         <div style="display: flex;flex-wrap: nowrap;column-gap: 10px;">
             <small style="background-color:#ffb6b9 ;border-radius: 5px;padding: 5px;">Expense {{ totals }}</small>
             <small style="background-color:#61c0bf ;border-radius: 5px;padding: 5px;">Income {{ incomes }}</small>
@@ -28,7 +28,7 @@
 
     </div>
 
-    <div class="data-card" style="width: 100% !important;height: 450px;">
+    <div class="data-card" >
         <button class="btn btn-secondary">Data</button>
 
         <hr>
@@ -91,9 +91,9 @@
 
 
 
-<div style="display: grid;grid-template-columns: 65% 35%;column-gap: 30px;width: 90%;margin: 0 auto;margin-top: 35px;">
+<div class="expenses">
             
-    <div class="data-card" style="height: 450px;width: 100%;" style="color: white !important;z-index: 1000;">
+    <div class="data-card"  style="color: white !important;z-index: 1000;">
         
         <div class="four">
             <a href="{% url 'processed-fee-payments' %}">
@@ -130,7 +130,7 @@
     </div>
 
 
-    <div class="data-card" style="width: 100% !important;height: 450px;">
+    <div class="data-card" >
     <h5><i class="bi bi-bezier"> </i> Panel</h5>
     <br>
     <div style="padding-left: 20px;color: white !important;" >

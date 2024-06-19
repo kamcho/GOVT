@@ -10,12 +10,17 @@
     <div class="container">
         <br><br><br><br>
         {% if user.role == 'Supervisor' %}
-        <form method="post" >
-            {% csrf_token %}
-        <button class="btn btn-danger" style="color: white;position: absolute;top: 60px;right: 12%;" name="delete">Delete</button>  
-        {% endif %}
-    </form>
+         <form method="post">
 
+        {% csrf_token %}
+        <div class="input-group" style="position: absolute;top:90px;right: 7%;width: 300px !important;">
+          <input class="form-control" name="command" placeholder="enter 'delete' to delete">
+          <button class="btn btn-danger" name="delete" >Delete</button>
+        </div>
+        </form>
+    </form>
+    {% endif %}
+<br><br>
         <div class="form-view">
         <h5 class="text-center" style="font-size: 30px;"> <i class="bi bi-send-check" > </i> Create Notice Update</h5>
         <br>

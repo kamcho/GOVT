@@ -1,4 +1,4 @@
-{% extends 'Supervisor/base.html' %}
+{% extends template %}
 {% load custom_filters %}
 {% block content %}
 
@@ -6,26 +6,28 @@
 <div class="container">
 
 
+    {% if user.role == 'Supervisor' %}
     <a class="btn btn-primary" href="{% url 'salary-payment' %}">Add Salary Payment</a>
+    
+    {% endif %}
+    <button class="btn btn-secondary">Balance {{ profile.balance }}</button>
     <br><br>
     <form method="post">
         {% csrf_token %}
         
         
-        <div class="input-group">
-          <input class="form-control" type="date" name="date">
-          <input class="form-control" type="date" name="to">
-          <button class="btn btn-outline-secondary">Filter/Reset</button>
-      </div>
-      
-  <br>
+    <div class="input-group">
+        <input class="form-control" type="date" name="date">
+        <input class="form-control" type="date" name="to">
+        <button class="btn btn-outline-secondary">Filter/Reset</button>
+    </div>
     
-
+<br>
     <table class="table" >
         <thead>
           <tr>
             <th><input type="checkbox"></th>
-            <th><h6>Users</h6></th>
+            <th><h6>User</h6></th>
             <th><h6>Date</h6></th>
             <th><h6>Amount</h6></th>
             <th><h6>Balance</h6></th>
@@ -34,11 +36,11 @@
         </thead>
         <tbody>
           
-           {% if salaries %}
+          {% if salaries %}
             {% for user in salaries %}
             <tr>
               <td><input type="checkbox" value="{{ user.user.email }}" name="selected"></td>
-              <td><a href="{% url 'salary-profile' user.user.email %}"><h6>{{ user.user.personalprofile.f_name }} {{ user.user.personalprofile.l_name }} {{ user.user.personalprofile.surname }}</h6></a></td>
+              <td><a href="{% url 'teachers-profile' user %}"><h6>{{ user.user.personalprofile.f_name }} {{ user.user.personalprofile.l_name }} {{ user.user.personalprofile.surname }}</h6></a></td>
               <td>{{ user.date|date:"D d M Y" }}</td>
               <td>{{ user.amount }}</td>
               <td>{{ user.balance }}</td>
@@ -51,9 +53,8 @@
             {% endfor %}
             <caption>{{ totals }}</caption>
           {% else %}
-            <caption>No results found</caption>
+          <caption>No results found</caption>
           {% endif %}
-         
         </tbody>
      </table>
 

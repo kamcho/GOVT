@@ -29,7 +29,7 @@
             <div class="user-card">
                 <i class="bi bi-people"> </i>Students<br>
                 <h4 style="font-size: 50px;" >{{ students }}</h4>
-                <small><i class="bi bi-gender-male"> </i>Males {{ males }} | <i class="bi bi-gender-female"> </i>Females {{ females }}</small>
+                <small><i class="bi bi-gender-male"> </i>M {{ males }} | <i class="bi bi-gender-female"> </i>F {{ females }}</small>
                 
             </div>
         </a>
@@ -37,7 +37,7 @@
             <div class="user-card">
                 <i class="bi bi-display"> </i>Teachers<br>
                 <h4 style="font-size: 50px;">{{ teachers }}</h4>
-                <small><i class="bi bi-gender-male"> </i>Males {{ t_males }} | <i class="bi bi-gender-female"> </i>Females {{ t_females }}</small>
+                <small><i class="bi bi-gender-male"> </i>M {{ t_males }} | <i class="bi bi-gender-female"> </i>F {{ t_females }}</small>
                 
 
             </div>
@@ -47,7 +47,7 @@
           <div class="user-card">
             <i class="bi bi-people"> </i> Guardians<br>
             <h4 style="font-size: 50px;">{{ parents }}</h4>
-            <small><i class="bi bi-gender-male"> </i>Males {{ g_males }} | <i class="bi bi-gender-female"> </i>Females {{ g_females }}</small>
+            <small><i class="bi bi-gender-male"> </i>M {{ g_males }} | <i class="bi bi-gender-female"> </i>F {{ g_females }}</small>
 
           </div>
         </a>
@@ -64,9 +64,9 @@
 <div >
 
 
-    <div style="display: grid;grid-template-columns: 65% 32%;column-gap: 30px;width: 90%;margin: 0 auto !important;;margin-top: 5px;">
+    <div class="expenses">
             
-        <div class="data-card" style="height: 450px;" style="color: white !important;z-index: 1000;">
+        <div class="data-card"  style="color: white !important;z-index: 1000;">
             
             <div class="four">
                 <a href="{% url 'terms' %}">
@@ -84,14 +84,14 @@
             
                 </div>
             </a>
-            <a href="{% url 'salary-payments' %}">
+            <a href="{% url 'class-teacher' %}">
                 <div class="service-card" style="background: #bbded6;color: #574d88;">
                     <h6 class="text-center">Manage Teachers</h6>
                     <p>Add and manage class teachers.</p>
             
                 </div>
             </a>
-            <a href="{% url 'transactions' %}">
+            <a href="{% url 'incidents' %}">
                 <div class="service-card" style="background-color: rgba(29, 25, 46, .8);color: white;">
                     <h6 class="text-center">Discipline</h6>
                     <h6>Create and manage Indiscipline incidents</h6>
@@ -113,7 +113,7 @@
             <hr>
             <a href="{% url 'migrate-fees' %}" style="color: coral;"><i class="bi bi-bezier2" > </i> Migrate Fee Balances</a>
             <hr>
-            <a href="{% url 'terms' %}" style="color: white;"><i class="bi bi-bezier2" > </i> Create Class</a>
+            <a href="{% url 'create-class' %}" style="color: white;"><i class="bi bi-bezier2" > </i> Create Class</a>
             <hr>
             <a href="{% url 'school-fees-balances' %}" style="color: white;"><i class="bi bi-bezier2" > </i> Fee Balances</a>
         </div>
