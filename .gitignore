@@ -3,4 +3,4 @@
 *.mp4
 *.pdf
 # mydatabase.sqlite3
-__pycache__
+*/__pycache__/
